@@ -1,0 +1,10 @@
+{
+    "APIGATEWAY": "https://localhost:44393",
+    "APISERVICE": "http://localhost:8039",
+    "APISMSEMAIL": "http://10.1.117.239:9000",
+    "IP_UI": "",
+    "PROJECT_NAME": "QLCC",
+    "SocketUri": "http://10.1.4.176:9000",
+    "Version": "10.09.2022",
+    "SiteKey": "6LcHRYUUAAAAAGXkfCKCLYjo-mpwjhWHJJMXRY77"
+}

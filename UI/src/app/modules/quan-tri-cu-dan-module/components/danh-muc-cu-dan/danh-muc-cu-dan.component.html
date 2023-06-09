@@ -1,0 +1,254 @@
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h5>Danh mục cư dân</h5>
+            <p>Danh mục cư dân trong hệ thống</p>
+            <p-table #dt [value]="lstAppResident" [(selection)]="selectedResidents" dataKey="id"
+                     styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                     [showCurrentPageReport]="true"
+                     [paginator]="true" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                     currentPageReportTemplate="Hiển thị từ {first} đến {last} trong tổng {totalRecords} cư dân"
+                     [globalFilterFields]="['phoneNumber','fullName','address','email']" responsiveLayout="scroll"
+                     [loading]="loading">
+                <ng-template pTemplate="caption">
+                    <div class="grid">
+                        <div class="col-6">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                       (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                       placeholder="Tìm kiếm cư dân"/>
+                            </span>
+                        </div>
+
+                        <div class="col-2">&nbsp;</div>
+                        <div class="col-2" style="text-align: center">
+                            <button pButton type="button" label="Thêm mới" icon="pi pi-plus"
+                                    (click)="onCreateResident()"
+                                    style="width: 100%;"></button>
+                        </div>
+                        <div class="col-2" style="text-align: center">
+                            <button pButton type="button" label="Xóa" icon="pi pi-trash"
+                                    style="width: 100%;" (click)="onDeleteListResident()"
+                                    [disabled]="!selectedResidents || selectedResidents.length == 0"
+                                    class="p-button-danger"></button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="Name">
+                            <div class="flex justify-content-between align-items-center">
+                                Tên cư dân
+                                <p-sortIcon field="residentName"></p-sortIcon>
+                                <p-columnFilter type="text" field="fullName" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="address">
+                            <div class="flex justify-content-between align-items-center">
+                                Địa chỉ
+                                <p-sortIcon field="address"></p-sortIcon>
+                                <p-columnFilter type="text" field="address" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="phoneNumber">
+                            <div class="flex justify-content-between align-items-center">
+                                Số điện thoại
+                                <p-sortIcon field="phoneNumber"></p-sortIcon>
+                                <p-columnFilter type="text" field="phoneNumber" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="email">
+                            <div class="flex justify-content-between align-items-center">
+                                Email
+                                <p-sortIcon field="email"></p-sortIcon>
+                                <p-columnFilter type="text" field="email" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="birthday">
+                            <div class="flex justify-content-between align-items-center">
+                                Ngày sinh
+                                <p-sortIcon field="birthday"></p-sortIcon>
+                                <p-columnFilter type="text" field="birthday" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th>
+                            <div style="text-align: center;"
+                                 class="justify-content-between align-items-center">
+                                Trạng thái
+                            </div>
+                        </th>
+                        <th style="width: 8rem">
+                            <div style="text-align: center;"
+                                 class="justify-content-between align-items-center">
+                                Tác vụ
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-resident>
+                    <tr class="p-selectable-row">
+                        <td>
+                            <p-tableCheckbox [value]="resident"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{resident.fullName}}
+                        </td>
+                        <td>
+                            {{resident.address}}
+                        </td>
+                        <td>
+                            {{resident.phoneNumber}}
+                        </td>
+                        <td>
+                            {{resident.email}}
+                        </td>
+                        <td>
+                            {{resident.birthday| date: 'dd/MM/yyyy'}}
+                        </td>
+                        <td style="text-align: center;">
+                            <button *ngIf="resident.status" pButton pRipple type="button"
+                                    label="Hoạt động"
+                                    class="p-button-rounded p-button-secondary mr-2 mb-2"></button>
+                            <button *ngIf="!resident.status" pButton pRipple type="button"
+                                    label="Không hoạt động"
+                                    class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+                        </td>
+                        <td style="text-align: center">
+                            <div class="grid">
+                                <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                                    <button pButton pRipple icon="pi pi-pencil"
+                                            (click)="onUpdateResident(resident)"
+                                            class="p-button-rounded p-mr-2"></button>
+                                </div>
+                                <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                                    <button pButton pRipple icon="pi pi-trash"
+                                            (click)="onDeleteResident(resident, $event)"
+                                            class="p-button-rounded p-button-danger"></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">Không có cư dân nào.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog [header]="headerDialog" [(visible)]="residentDialog"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '30vw'}"
+          [modal]="true"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <ng-template pTemplate="content">
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Thông tin cư dân</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-float-label">
+                        <input type="text" pInputText id="fullName"
+                        [(ngModel)]="residentModel.fullName" required autofocus/>
+                        <label for="fullName" >Tên cư dân*</label>
+                        </span>
+                     </div>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-float-label">
+                            <p-dropdown [options]="lstGender" [(ngModel)]="residentModel.gender"
+                                        [showClear]="true"
+                                        [autoDisplayFirst]="false"></p-dropdown>
+                            <label>Chọn giới tính*</label>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                <span class="p-float-label">
+                    <p-calendar  dateFormat="dd/mm/yy" [showIcon]="true" inputId="icon" [(ngModel)]="birthday" styleClass="w-full"></p-calendar>
+                    <label>Ngày sinh</label>
+                </span>
+                 </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="email" [(ngModel)]="residentModel.email" required
+                    autofocus/>
+                    <label for="email">Email*</label>
+                    </span>
+                 </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="phone" [(ngModel)]="residentModel.phoneNumber" required
+                    autofocus/>
+                    <label for="phone">Số điện thoại*</label>
+                    </span>
+                 </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="address" [(ngModel)]="residentModel.address"
+                    required autofocus/>
+                    <label for="address">Địa chỉ*</label>
+                    </span>
+                 </div>
+                 <p-fieldset legend="Chọn hộ gia đình" [toggleable]="true">
+                    <div class="field">
+                       <p-inputSwitch [(ngModel)]="active" (onChange)="setActive($event)"></p-inputSwitch>
+                       <h6> Kích hoạt</h6>
+                    </div>
+                    <div class="field">
+                        <span class="p-float-label">
+                        <p-dropdown [options]="lstHouseHold" [(ngModel)]="householdSelected"
+                        optionLabel="householdName"
+                        [showClear]="true"
+                        [autoDisplayFirst]="false"></p-dropdown>
+                        <label>Hộ gia đình*</label></span>
+                     </div>
+                 </p-fieldset>
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                    </div>
+                </p-divider>
+            </div>
+        </div>
+    </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="grid" style="text-align: center ; justify-content: center;">
+            <div class="col-4">&nbsp;</div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Lưu" icon="pi pi-save"
+                        (click)="onSaveResident()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Hủy bỏ" icon="pi pi-times"
+                        (click)="onCancelResident()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-4">&nbsp;</div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-toast baseZIndex='99999' key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="deleteList" header="Xóa cư dân"
+                 icon="pi pi-exclamation-triangle"></p-confirmDialog>

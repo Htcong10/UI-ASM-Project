@@ -1,0 +1,72 @@
+<div class="pages-body login-page flex flex-column" filter-color="orange">
+    <div *ngIf="false" class="topbar p-p-3 p-d-flex p-jc-between p-flex-row p-ai-center">
+    </div>
+    <div class="align-self-center mt-auto mb-auto">
+        <div class="pages-panel card flex flex-column" [style.width.px]="getWidth()*0.4">
+            <div class="pages-header px-3 py-1">
+                <div class="logo" style="padding-top: 30%">
+                    <img src="assets/layout/images/Blu-removebg-preview.png"
+                         style="width: 96px; height: 96px"/>
+                </div>
+            </div>
+            <div>
+                <h1 class="mb-4"
+                    style="color: #284494; font-family: 'Arial Black'; font-weight: bold; font-size: 28px;">
+                    AMS 1.0
+                </h1>
+            </div>
+            <div class="input-panel flex flex-column px-3">
+                <label class="text-left form-label ml-1">Tên đăng nhập</label>
+                <div class="p-inputgroup mt-2 mb-3 input-border">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-user" style="color: black"></i>
+                    </span>
+                    <input type="text" class="username p-inputtext flex"
+                           style="padding-left: 2.5rem; height: 44px;"
+                           [(ngModel)]="userName" id="email" placeholder="Tên đăng nhập">
+                </div>
+                <label class="text-left form-label ml-1">Mật khẩu</label>
+                <div class="p-inputgroup mt-2 mb-4 input-border">
+                    <span class="p-input-icon-left">
+                        <i class="pi pi-lock" style="color: black"></i>
+                    </span>
+                    <input [type]="chkTT_ShowPass ? 'text' : 'password'"
+                           (keydown)="onEnterTKiemMaKHang($event)" class="p-inputtext"
+                           style="padding-left: 2.5rem; padding-right: 2.5rem; height: 44px;"
+                           [(ngModel)]="password" id="password" placeholder="Mật khẩu">
+                    <span class="p-input-icon-right">
+                            <i *ngIf="!chkTT_ShowPass" (click)="btnShowPass_Click()"
+                               class="pi pi-eye"
+                               style="color: black"></i>
+                            <i *ngIf="chkTT_ShowPass" (click)="btnShowPass_Click()"
+                               class="pi pi-eye-slash"
+                               style="color: black"></i>
+                    </span>
+                </div>
+
+            </div>
+            <div class="mb-4 px-4" style="text-align: center">
+                <p-button class="login-button text-500 btn-label" (onClick)="onSubmit()"
+                          [style]="{'border-radius': '20px', 'background-color': '#5844e4', 'color': '#FFFFFF', 'width': '85%', 'height': '42px'}"
+                          label="Đăng nhập">
+                </p-button>
+            </div>
+            <div class="flex align-items-center px-3">
+                <div class="flex-auto"
+                     style="border-top-width: 1px; margin-top: 1px; border-top-style: solid; border-color: darkgray"></div>
+                <div class="font-medium mx-2">AMS - PRJ2 - 10/04/2023</div>
+                <div class="flex-auto"
+                     style="border-top-width: 1px; margin-top: 1px; border-top-style: solid; border-color: darkgray"></div>
+            </div>
+<!--            <div class="flex grid align-items-center mt-4 mb-4">-->
+<!--                <p-button class="flex-auto col-6" label="IOS" icon="pi pi-apple grey"-->
+<!--                          (onClick)="openMobileLink()"-->
+<!--                          [style]="{'border-radius': '10px', 'border': '1px solid', 'background-color': 'transparent', 'color': '#565353', 'width': '100%'}"></p-button>-->
+<!--                <p-button class="flex-auto col-6" label="Android" icon="pi pi-android green"-->
+<!--                          (onClick)="openMobileLink()"-->
+<!--                          [style]="{'border-radius': '10px', 'border': '1px solid', 'background-color': 'transparent', 'color': '#565353', 'width': '100%'}"></p-button>-->
+<!--            </div>-->
+        </div>
+    </div>
+</div>
+<p-toast baseZIndex='99999'></p-toast>

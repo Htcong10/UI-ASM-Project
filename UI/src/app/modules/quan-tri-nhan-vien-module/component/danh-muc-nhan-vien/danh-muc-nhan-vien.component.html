@@ -1,0 +1,259 @@
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h5>Danh mục nhân viên</h5>
+            <p>Danh mục nhân viên trong hệ thống</p>
+            <p-table #dt [value]="lstAppEmployee" [(selection)]="selectedEmployees" dataKey="id"
+                     styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                     [showCurrentPageReport]="true"
+                     [paginator]="true" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                     currentPageReportTemplate="Hiển thị từ {first} đến {last} trong tổng {totalRecords} nhân viên"
+                     [globalFilterFields]="['position','employeeName','phoneNumber','email']" responsiveLayout="scroll"
+                     [loading]="loading">
+                <ng-template pTemplate="caption">
+                    <div class="grid">
+                        <div class="col-6">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                       (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                       placeholder="Tìm kiếm nhân viên"/>
+                            </span>
+                        </div>
+
+                        <div class="col-2">&nbsp;</div>
+                        <div class="col-2" style="text-align: center">
+                            <button pButton type="button" label="Thêm mới" icon="pi pi-plus"
+                                    (click)="onCreateEmployee()"
+                                    style="width: 100%;"></button>
+                        </div>
+                        <div class="col-2" style="text-align: center">
+                            <button pButton type="button" label="Xóa" icon="pi pi-trash"
+                                    style="width: 100%;" (click)="onDeleteListEmployee()"
+                                    [disabled]="!selectedEmployees || selectedEmployees.length == 0"
+                                    class="p-button-danger"></button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="Name">
+                            <div class="flex justify-content-between align-items-center">
+                                Tên nhân viên
+                                <p-sortIcon field="employeeName"></p-sortIcon>
+                                <p-columnFilter type="text" field="fullName" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="position">
+                            <div class="flex justify-content-between align-items-center">
+                                Chức vụ
+                                <p-sortIcon field="position"></p-sortIcon>
+                                <p-columnFilter type="text" field="position" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="phoneNumber">
+                            <div class="flex justify-content-between align-items-center">
+                                Số điện thoại
+                                <p-sortIcon field="phoneNumber"></p-sortIcon>
+                                <p-columnFilter type="text" field="phoneNumber" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="email">
+                            <div class="flex justify-content-between align-items-center">
+                                Email
+                                <p-sortIcon field="email"></p-sortIcon>
+                                <p-columnFilter type="text" field="email" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="department">
+                            <div class="flex justify-content-between align-items-center">
+                                Phòng
+                                <p-sortIcon field="department"></p-sortIcon>
+                                <p-columnFilter type="text" field="department" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th>
+                            <div style="text-align: center;"
+                                 class="justify-content-between align-items-center">
+                                Trạng thái
+                            </div>
+                        </th>
+                        <th style="width: 8rem">
+                            <div style="text-align: center;"
+                                 class="justify-content-between align-items-center">
+                                Tác vụ
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-employee>
+                    <tr class="p-selectable-row">
+                        <td>
+                            <p-tableCheckbox [value]="employee"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{employee.employeeName}}
+                        </td>
+                        <td>
+                            {{employee.position}}
+                        </td>
+                        <td>
+                            {{employee.phoneNumber}}
+                        </td>
+                        <td>
+                            {{employee.email}}
+                        </td>
+                        <td>
+                            {{employee.department ? employee.department.departmentName : 'Chưa xác định'}}
+                        </td>
+                        <td style="text-align: center;">
+                            <button *ngIf="employee.status" pButton pRipple type="button"
+                                    label="Hoạt động"
+                                    class="p-button-rounded p-button-secondary mr-2 mb-2"></button>
+                            <button *ngIf="!employee.status" pButton pRipple type="button"
+                                    label="Không hoạt động"
+                                    class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+                        </td>
+                        <td style="text-align: center">
+                            <div class="grid">
+                                <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                                    <button pButton pRipple icon="pi pi-pencil"
+                                            (click)="onUpdateEmployee(employee)"
+                                            class="p-button-rounded p-mr-2"></button>
+                                </div>
+                                <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                                    <button pButton pRipple icon="pi pi-trash"
+                                            (click)="onDeleteEmployee(employee, $event)"
+                                            class="p-button-rounded p-button-danger"></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">Không có nhân viên nào.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+
+<p-dialog [header]="headerDialog" [(visible)]="employeeDialog"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '30vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Thông tin nhân viên</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-float-label">
+                        <input type="text" pInputText id="fullName"
+                        [(ngModel)]="employeeModel.employeeName" required autofocus/>
+                        <label for="fullName" >Tên nhân viên*</label>
+                        </span>
+                     </div>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-float-label">
+                            <p-dropdown [options]="lstGender" [(ngModel)]="employeeModel.gender"
+                                        [showClear]="true"
+                                        [autoDisplayFirst]="false"></p-dropdown>
+                            <label>Chọn giới tính*</label>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                <span class="p-float-label">
+                    <p-calendar  dateFormat="dd/mm/yy" [showIcon]="true" inputId="icon" [(ngModel)]="birthday" styleClass="w-full"></p-calendar>
+                    <label>Ngày sinh</label>
+                </span>
+                 </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                        <p-dropdown [options]="lstPosition" [(ngModel)]="employeeModel.position"
+                                    [showClear]="true"
+                                    [autoDisplayFirst]="false"></p-dropdown>
+                        <label>Chọn chức vụ*</label>
+                    </span>
+                </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="email" [(ngModel)]="employeeModel.email" required
+                    autofocus/>
+                    <label for="email">Email*</label>
+                    </span>
+                 </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="phone" [(ngModel)]="employeeModel.phoneNumber" required
+                    autofocus/>
+                    <label for="phone">Số điện thoại*</label>
+                    </span>
+                 </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="address" [(ngModel)]="employeeModel.address"
+                    required autofocus/>
+                    <label for="address">Địa chỉ*</label>
+                    </span>
+                 </div>
+                 <p-fieldset legend="Chọn phòng ban" [toggleable]="true">
+                    <div class="field">
+                       <p-inputSwitch [(ngModel)]="active" (onChange)="setActive($event)"></p-inputSwitch>
+                       <h6> Kích hoạt</h6>
+                    </div>
+                    <div class="field">
+                        <span class="p-float-label">
+                        <p-dropdown [options]="lstDepartment" [(ngModel)]="departmentSelected"
+                        optionLabel="departmentName"
+                        [showClear]="true"
+                        [autoDisplayFirst]="false"></p-dropdown>
+                        <label>Phòng ban*</label></span>
+                     </div>
+                 </p-fieldset>
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                    </div>
+                </p-divider>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="grid" style="text-align: center ; justify-content: center;">
+            <div class="col-4">&nbsp;</div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Lưu" icon="pi pi-save"
+                        (click)="onSaveEmployee()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Hủy bỏ" icon="pi pi-times"
+                        (click)="onCancelEmployee()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-4">&nbsp;</div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-toast baseZIndex='99999' key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="deleteList" header="Xóa nhân viên"
+                 icon="pi pi-exclamation-triangle"></p-confirmDialog>

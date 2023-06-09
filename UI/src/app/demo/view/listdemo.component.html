@@ -1,0 +1,84 @@
+<div class="grid list-demo">
+	<div class="col-12">
+		<div class="card">
+			<h5>DataView</h5>
+			<p-dataView #dv [value]="products" [paginator]="true" [rows]="9" filterBy="name"
+						[sortField]="sortField" [sortOrder]="sortOrder" layout="grid">
+				<ng-template pTemplate="header">
+					<div class="flex flex-column md:flex-row md:justify-content-between">
+						<p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Price" (onChange)="onSortChange($event)" styleClass="mb-2 md:mb-0"></p-dropdown>
+						<span class="p-input-icon-left mb-2 md:mb-0">
+                            <i class="pi pi-search"></i>
+                            <input type="search" pInputText placeholder="Search by Name" (input)="dv.filter($event.target.value)">
+                        </span>
+						<p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+					</div>
+				</ng-template>
+				<ng-template let-apart pTemplate="listItem">
+					<div class="col-12">
+						<div class="apart-list-item">
+							<img [src]="'assets/demo/images/product' + apart.image" [alt]="apart.name"/>
+							<div class="apart-list-detail">
+								<div class="apart-name">{{apart.name}}</div>
+								<div class="apart-description">{{apart.description}}</div>
+								<p-rating [ngModel]="apart.rating" [readonly]="true" [cancel]="false"></p-rating>
+								<i class="pi pi-tag apart-category-icon"></i><span class="apart-category">{{apart.category}}</span>
+							</div>
+							<div class="apart-list-action">
+								<span class="apart-price">${{apart.price}}</span>
+								<p-button icon="pi pi-shopping-cart" label="Add to Cart" [disabled]="apart.inventoryStatus === 'OUTOFSTOCK'"></p-button>
+								<span [class]="'apart-badge status-' + apart.inventoryStatus.toLowerCase()">{{apart.inventoryStatus}}</span>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+				<ng-template let-apart pTemplate="gridItem">
+					<div class="col-12 md:col-4">
+						<div class="apart-grid-item card">
+							<div class="apart-grid-item-top">
+								<div>
+									<i class="pi pi-tag apart-category-icon"></i>
+									<span class="apart-category">{{apart.category}}</span>
+								</div>
+								<span [class]="'apart-badge status-' + apart.inventoryStatus.toLowerCase()">{{apart.inventoryStatus}}</span>
+							</div>
+							<div class="apart-grid-item-content">
+								<img [src]="'assets/demo/images/product/' + apart.image" [alt]="apart.name"/>
+								<div class="apart-name">{{apart.name}}</div>
+								<div class="apart-description">{{apart.description}}</div>
+								<p-rating [ngModel]="apart.rating" [readonly]="true" [cancel]="false"></p-rating>
+							</div>
+							<div class="apart-grid-item-bottom">
+								<span class="apart-price">${{apart.price}}</span>
+								<p-button icon="pi pi-shopping-cart" [disabled]="apart.inventoryStatus === 'OUTOFSTOCK'"></p-button>
+							</div>
+						</div>
+					</div>
+				</ng-template>
+			</p-dataView>
+		</div>
+	</div>
+
+	<div class="col-12 lg:col-8">
+		<div class="card">
+			<h5>PickList</h5>
+			<p-pickList [source]="sourceCities" [target]="targetCities" sourceHeader="From" targetHeader="To" dragdrop="true"
+						[responsive]="true" [sourceStyle]="{'height':'300px'}" [targetStyle]="{'height':'300px'}">
+				<ng-template let-city pTemplate="item">
+					<div>{{city.name}}</div>
+				</ng-template>
+			</p-pickList>
+		</div>
+	</div>
+
+	<div class="col-12 lg:col-4">
+		<div class="card">
+			<h5>OrderList</h5>
+			<p-orderList [value]="orderCities" [listStyle]="{'height':'auto'}" header="Cities" dragdrop="true">
+				<ng-template let-city pTemplate="item">
+					<div>{{city.name}}</div>
+				</ng-template>
+			</p-orderList>
+		</div>
+	</div>
+</div>

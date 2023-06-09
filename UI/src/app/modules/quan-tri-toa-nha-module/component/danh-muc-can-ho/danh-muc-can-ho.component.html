@@ -1,0 +1,228 @@
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h5>Danh mục căn hộ</h5>
+            <p>Danh mục căn hộ trong hệ thống</p>
+            <div class="grid">
+                <div class="col-2" style="text-align: center">
+                    <button pButton type="button" label="Thêm mới" icon="pi pi-plus"
+                            (click)="onCreateApartment()" style="width: 100%;"></button>
+                </div>
+                <div class="col-2" style="text-align: center">
+                    <button pButton type="button" label="Xóa" icon="pi pi-trash" style="width: 100%;"
+                            (click)="onCancelResident()"
+                            [disabled]=""
+                            class="p-button-danger"></button>
+                </div>
+            </div>
+            <div class="grid p-fluid">
+                <div class="col-12">
+                    <div class="card" *ngFor="let apart of lstData">
+                        <h2>{{apart.label}}</h2>
+                        <p-carousel [value]="apart.value" [numVisible]="3" [numScroll]="3" [circular]="false"
+                                    [responsiveOptions]="carouselResponsiveOptions">
+                            <ng-template let-apart pTemplate="item">
+                                <div class="product-item">
+                                    <div class="product-item-content">
+                                        <div class="mb-3">
+                                            <img
+                                                [src]="apart.fileDinhKem ? 'assets/imageApart/' + apart.fileDinhKem : ''"
+                                                style="width: 300px; height: 200px"
+                                                [alt]="apart.apartmentName"
+                                                class="product-image"/>
+                                        </div>
+                                        <div>
+                                            <h4 class="mb-1"> Tên căn hộ : {{apart.apartmentName}}</h4>
+                                            <h5 class="mt-0 mb-3">Giá thuê : {{apart.monthlyFee}}</h5>
+                                            <h5 class="mt-0 mb-3">Phòng ngủ : {{apart.bedroom}}</h5>
+                                            <h5 class="mt-0 mb-3">Phòng VS : {{apart.bathroom}}</h5>
+                                            <!--                                            <span-->
+                                            <!--                                                [class]="'apart-badge status-'+apart.inventoryStatus.toLowerCase()">{{apart.inventoryStatus}}</span>-->
+                                            <div class="car-buttons mt-5">
+                                                <p-button type="button" styleClass="p-button p-button-rounded mr-2"
+                                                          icon="pi pi-search"
+                                                          (click)="onDisplayGalleria(apart.lstGalleria)"></p-button>
+                                                <p-button type="button"
+                                                          styleClass="p-button-success p-button-rounded mr-2"
+                                                          icon="pi pi-cog" (click)="onUpdateModel(apart)"></p-button>
+                                                <p-button type="button" styleClass="p-button-danger p-button-rounded"
+                                                          icon="pi pi-trash"
+                                                          (click)="onDeleteModel(apart,$event)"></p-button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </p-carousel>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [header]="headerDialog" [(visible)]="isShowDialog"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '30vw'}"
+          [modal]="true"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Thông tin căn hộ</b>
+                    </div>
+                </p-divider>
+                <div class="grid">
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-float-label">
+                        <input type="text" pInputText id="fullName"
+                               [(ngModel)]="apartmentModel.apartmentName"/>
+                        <label for="fullName">Tên căn hộ*</label>
+                        </span>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-float-label">
+                            <p-dropdown [options]="lstBuilding" [(ngModel)]="apartmentModel.buldingId"
+                                        [showClear]="true"
+
+                                        [autoDisplayFirst]="false"></p-dropdown>
+                            <label>Chọn tòa nhà*</label>
+                        </span>
+                    </div>
+                </div>
+                <div class="field">
+                </div>
+                <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="acreage" [(ngModel)]="apartmentModel.acreage" required
+                           autofocus/>
+                    <label for="acreage">Diện tích*</label>
+                    </span>
+                </div>
+                <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="monthlyFee" [(ngModel)]="apartmentModel.monthlyFee" required
+                           autofocus/>
+                    <label for="monthlyFee">Giá thuê*</label>
+                    </span>
+                </div>
+                <div class="field">
+                    <span class="p-float-label">
+                    <input type="number" pInputText id="phone" [(ngModel)]="apartmentModel.bathroom" required
+                           autofocus/>
+                    <label for="phone">Số phòng vệ sinh*</label>
+                    </span>
+                </div>
+                <div class="field">
+                    <span class="p-float-label">
+                    <input type="number" pInputText id="address" [(ngModel)]="apartmentModel.bedroom"
+                           required autofocus/>
+                    <label for="address">Số phòng ngủ*</label>
+                    </span>
+                </div>
+                <p-fieldset legend="Chọn hộ gia đình" [toggleable]="true">
+                    <div class="field">
+                        <p-inputSwitch [(ngModel)]="active" (onChange)="setActive($event)"></p-inputSwitch>
+                        <h6> Kích hoạt</h6>
+                    </div>
+                    <div class="field">
+                        <label>Hình ảnh căn hộ*</label>
+                        <span class="p-float-label">
+                                                        <p-fileUpload #fileUploader name="demo[]"
+                                                                      url="./upload.php"
+                                                                      chooseLabel="Chọn file" uploadLabel="Tải lên"
+                                                                      cancelLabel="Huỷ"
+                                                                      (onBeforeUpload)="onBeforeUpload($event)"
+                                                                      customUpload="true" accept="image/*"
+                                                                      (uploadHandler)="onFileSelected($event)"
+                                                                      multiple="multiple" maxFileSize="65000000">
+                                                        </p-fileUpload>
+                        </span>
+                    </div>
+                    <div class="grid">
+                        <div *ngIf="apartmentModel.lstGalleria" class="col-12">
+                            <p-table [value]="apartmentModel.lstGalleria"
+                                     selectionMode="single"
+                                     styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th [style]="{'width':'70%','text-align':'center'}">Tên file</th>
+                                        <th [style]="{'width':'10%','text-align':'center'}">Xem file</th>
+                                        <th [style]="{'width':'10%','text-align':'center'}">Tải về</th>
+                                        <th [style]="{'width':'10%','text-align':'center'}">Xoá file</th>
+                                    </tr>
+                                </ng-template>
+
+                                <ng-template pTemplate="body" let-row>
+                                    <tr [pSelectableRow]="row">
+                                        <td [style]="{'width':'70%', 'text-align':'center'}">{{row}}</td>
+                                        <td [style]="{'width':'10%','text-align':'center'}">
+                                            <button type="button" pButton
+                                                    icon="pi pi-eye" (click)="onShowImage(row)"></button>
+                                        </td>
+                                        <td [style]="{'width':'10%','text-align':'center'}">
+                                            <button type="button" pButton
+                                                    icon="pi pi-download" (click)="taiFile(row)"></button>
+                                        </td>
+                                        <td [style]="{'width':'10%','text-align':'center'}">
+                                            <button [disabled]="" type="button" pButton
+                                                    icon="pi pi-trash" (click)="deleteFile(row)"></button>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </p-fieldset>
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                    </div>
+                </p-divider>
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="grid" style="text-align: center ; justify-content: center;">
+            <div class="col-4">&nbsp;</div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Lưu" icon="pi pi-save"
+                        (click)="onSaveApartment()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Hủy bỏ" icon="pi pi-times"
+                        (click)="onCancelResident()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-4">&nbsp;</div>
+        </div>
+    </ng-template>
+</p-dialog>
+<p-dialog [header]="'Thư viện ảnh'" [(visible)]="isShowGalleria"
+          [breakpoints]="{'960px': '75vw'}"
+          [modal]="true"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <div class="col-12">
+        <div class="card">
+            <h5>Galleria</h5>
+            <p-galleria [value]="lstGalleria" [responsiveOptions]="galleriaResponsiveOptions"
+                        [containerStyle]="{'max-width': '800px', 'margin':'auto'}" [numVisible]="7" [circular]="true">
+                <ng-template pTemplate="item" let-item>
+                    <img src="assets/imageApart/{{item}}" style="width: 800px;height: 600px; display: block;"/>
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid grid-nogutter justify-content-center">
+                        <img src="assets/imageApart/{{item}}" style="display: block;width: 30%; height: 30%"/>
+                    </div>
+                </ng-template>
+            </p-galleria>
+        </div>
+    </div>
+</p-dialog>
+<div class="card">
+<p-confirmDialog header="Confirmation" key="confirm1" icon="pi pi-exclamation-triangle" message="Bạn có chắc chắn muốn xóa file không?"
+                 [style]="{width: '425px'}" acceptButtonStyleClass="p-button-text" rejectButtonStyleClass="p-button-text"></p-confirmDialog>
+</div>
+<p-toast baseZIndex='99999' key="notify"></p-toast>
+<p-confirmPopup key="confirm2"></p-confirmPopup>

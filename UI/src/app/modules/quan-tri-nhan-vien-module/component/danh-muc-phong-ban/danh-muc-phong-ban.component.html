@@ -1,0 +1,259 @@
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <h5>Danh mục phòng ban</h5>
+            <p>Danh mục phòng ban dùng trong hệ thống</p>
+            <p-table #dt [value]="lstDepartmentGroup" [(selection)]="selectedDepartment" dataKey="departmentId"
+                     styleClass="p-datatable-customers rowexpand-table" [rowHover]="true" [rows]="10"
+                     [showCurrentPageReport]="true"
+                     [paginator]="true" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                     currentPageReportTemplate="Hiển thị từ {first} đến {last} trong tổng {totalRecords} phòng ban"
+                     [globalFilterFields]="['DepartmentKey','DepartmentName']" responsiveLayout="scroll"
+                     [loading]="loading">
+                <ng-template pTemplate="caption">
+                    <div class="grid">
+                        <div class="col-6">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                       (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                       placeholder="Tìm kiếm phòng ban"/>
+                            </span>
+                        </div>
+
+                        <div class="col-2">&nbsp;</div>
+                        <div class="col-2" style="text-align: center">
+                            <button pButton type="button" label="Thêm mới" icon="pi pi-plus"
+                                    (click)="onCreateDepartment()"
+                                    style="width: 100%;"></button>
+                        </div>
+                        <div class="col-2" style="text-align: center">
+                            <button pButton type="button" label="Xóa" icon="pi pi-trash"
+                                    style="width: 100%;" (click)="onDeleteListDepartment()"
+                                    [disabled]="!selectedDepartments || selectedDepartments.length == 0"
+                                    class="p-button-danger"></button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="departmentName">
+                            <div class="flex justify-content-between align-items-center">
+                                Phòng ban
+                                <p-sortIcon field="departmentName"></p-sortIcon>
+                                <p-columnFilter type="text" field="departmentName" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="email">
+                            <div class="flex justify-content-between align-items-center">
+                                Email
+                                <p-sortIcon field="email"></p-sortIcon>
+                                <p-columnFilter type="text" field="email" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="address">
+                            <div class="flex justify-content-between align-items-center">
+                                Địa chỉ
+                                <p-sortIcon field="address"></p-sortIcon>
+                                <p-columnFilter type="text" field="address" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="numMember">
+                            <div class="flex justify-content-between align-items-center">
+                                Số nhân viên
+                                <p-sortIcon field="numMember"></p-sortIcon>
+                                <p-columnFilter type="text" field="numMember" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="hostName">
+                            <div class="flex justify-content-between align-items-center">
+                                Tên quản lý
+                                <p-sortIcon field="hostName"></p-sortIcon>
+                                <p-columnFilter type="text" field="hostName" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th style="width: 8rem">
+                            <div style="text-align: center;"
+                                 class="justify-content-between align-items-center">
+                                Tác vụ
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-DepartmentModel>
+                    <tr class="p-selectable-row">
+                        <td>
+                            <button pButton pRipple type="button" [pRowToggler]="DepartmentModel" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                        </td>
+                        <td>
+                            {{DepartmentModel.departmentName}}
+                        </td>
+                        <td>
+                            {{DepartmentModel.email}}
+                        </td>
+                        <td>
+                            {{DepartmentModel.departmenAdress}}
+                        </td>
+                        <td>
+                            {{DepartmentModel.numberEmploy}}
+                        </td>
+                        <td>
+                            {{DepartmentModel.managerName}}
+                        </td>
+                        <td style="text-align: center">
+                            <div class="grid">
+                                <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                                    <button pButton pRipple icon="pi pi-pencil"
+                                            (click)="onUpdateDepartment(DepartmentModel)"
+                                            class="p-button-rounded p-mr-2"></button>
+                                </div>
+                                <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                                    <button pButton pRipple icon="pi pi-trash"
+                                            (click)="onDeleteDepartment(DepartmentModel)"
+                                            class="p-button-rounded p-button-danger"></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-DepartmentModel>
+					<tr>
+						<td colspan="7">
+							<div class="p-3">
+								<p-table [value]="DepartmentModel.thanhVien" dataKey="id">
+									<ng-template pTemplate="header">
+										<tr>
+											<th pSortableColumn="id">Tên thành viên<p-sortIcon field="price"></p-sortIcon></th>
+											<th pSortableColumn="customer">Địa chỉ<p-sortIcon field="customer"></p-sortIcon></th>
+											<th pSortableColumn="date">Số điện thoại<p-sortIcon field="date"></p-sortIcon></th>
+											<th pSortableColumn="amount">Email<p-sortIcon field="amount"></p-sortIcon></th>
+										</tr>
+									</ng-template>
+									<ng-template pTemplate="body" let-thanhVien>
+                                        <tr>
+                                            <td><span class="p-column-title">Tên thành viên</span>{{thanhVien.employeeName}}</td>
+                                            <td><span class="p-column-title">Địa chỉ</span>{{thanhVien.address}}</td>
+                                            <td><span class="p-column-title">Số điện thoại</span>{{thanhVien.phoneNumber}}</td>
+                                            <td><span class="p-column-title">Email</span>{{thanhVien.email}}</td>
+                                        </tr>
+									</ng-template>
+									<ng-template pTemplate="emptymessage">
+										<tr>
+											<td colspan="6">There are no order for this apart yet.</td>
+										</tr>
+									</ng-template>
+								</p-table>
+							</div>
+						</td>
+					</tr>
+				</ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">Không có phòng ban nào.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+          <p-dialog [header]="headerDialog" [(visible)]="isDisplayDialog"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '30vw'}"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <div class="grid p-fluid">
+        <div class="col-12 md:col-12">
+            <div class="card">
+                <p-divider align="left">
+                    <div class="p-d-inline-flex p-ai-center">
+                        <b>Thông tin phòng ban</b>
+                    </div>
+                </p-divider>
+                <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="email" [(ngModel)]="Department.departmentName" required
+                    autofocus/>
+                    <label for="email">Tên phòng ban*</label>
+                    </span>
+                 </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="address" [(ngModel)]="Department.departmenAdress"
+                    required autofocus/>
+                    <label for="address">Địa chỉ*</label>
+                    </span>
+                 </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                    <input type="text" pInputText id="address" [(ngModel)]="Department.descript"
+                    required autofocus/>
+                    <label for="address">Mô tả</label>
+                    </span>
+                 </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                    <input type="email" pInputText id="email" [(ngModel)]="Department.email"
+                    required autofocus/>
+                    <label for="address">Email*</label>
+                    </span>
+                 </div>
+                 <div class="field">
+                    <p-multiSelect [options]="lstAppEmployee" [(ngModel)]="selectedMembers"
+                    appendTo="body" defaultLabel="Chọn nhân viên"
+                    optionLabel="employeeName"
+                    selectedItemsLabel="{0} thành viên đã chọn"
+                    defaultValue="true" display="chip">
+                    </p-multiSelect>
+                 </div>
+                 <div class="field">
+                    <span class="p-float-label">
+                    <p-dropdown [options]="selectedMembers" [(ngModel)]="hostName"
+                    optionLabel="employeeName"
+                    [showClear]="true"
+                    [autoDisplayFirst]="false"></p-dropdown>
+                    <label>Quản lý</label></span>
+
+                 </div>
+                 <div class="field">
+                    <label>Trạng thái*</label>
+                    <span class="p-float-label"> <p-inputSwitch [(ngModel)]="active" (onChange)="setActive($event)"></p-inputSwitch>
+
+                    </span>
+                    </div>
+                    <div class="col-12 mb-2 lg:col-4 mb-lg-0">
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="grid" style="text-align: center ; justify-content: center;">
+            <div class="col-3">&nbsp;</div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Lưu" icon="pi pi-save"
+                        (click)="onSaveDepartment()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Hủy bỏ" icon="pi pi-times"
+                        (click)="onCancelDepartment()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-3">&nbsp;</div>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-toast baseZIndex='99999' key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="deleteList" header="Xóa phòng ban"
+                 icon="pi pi-exclamation-triangle"></p-confirmDialog>

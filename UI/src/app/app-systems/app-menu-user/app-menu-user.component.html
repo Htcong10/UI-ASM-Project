@@ -1,0 +1,50 @@
+<nav class="sidebar locked">
+    <div class="logo_items flex">
+        <span class="nav_image">
+            <img src="./assets/layout/images/logoTrang-removebg-preview.png" alt="logo_img"/>
+        </span>
+        <span class="logo_name">ASM 1.0</span>
+        <i class="pi pi-lock" id="lock-icon" title="Unlock Sidebar" style="padding-left: 50px;font-family: 'primeicons';color:white" (click)="appMain.onMenuButtonClick($event)"></i>
+        <i class="bx bx-x" id="sidebar-close"></i>
+    </div>
+    <div class="sidebar_profile flex">
+        <a class="link flex" (click)="logOut($event)">
+            <i class="pi pi-sign-out" style="font-family: 'primeicons';"></i>
+        </a>
+        <div class="data_text" style="display: flex;flex-flow: column;">
+            <span class="name">{{username}}</span>
+            <span class="email">{{email}}</span>
+        </div>
+    </div>
+    <div class="menu_container">
+        <div class="menu_items">
+            <ul class="menu_item">
+                <div class="menu_title flex">
+                    <span class="title">Thông tin chung</span>
+                    <span class="line"></span>
+                </div>
+                <li class="item">
+                    <a class="link flex" routerLink="QTriCuDan/CuDan" >
+                        <i class="pi pi-user" style="font-family: 'primeicons';"></i>
+                        <span>Thông tin cá nhân</span>
+                    </a>
+                </li>
+                <li class="item">
+                    <a href="#" class="link flex" routerLink="QTriCuDan/HoGDinh">
+                        <i class="pi pi-bell" style="font-family: 'primeicons';"></i>
+                        <span>Thông báo</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Navbar -->
+<nav class="navbar flex">
+    <i class="bx bx-menu" id="sidebar-open"></i>
+    <input type="text" placeholder="Search..." class="search_box"/>
+    <span class="nav_image">
+        <i class="pi pi-search" style="font-size: 2rem;font-family: 'primeicons';"></i>
+      </span>
+</nav>
+
