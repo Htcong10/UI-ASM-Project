@@ -144,8 +144,10 @@ const routes: Routes = [
                 path: 'QTriNhanVien',
                 loadChildren: () => import('./modules/quan-tri-nhan-vien-module/quan-tri-nhan-vien.module').then(m => m.QuanTriNhanVienModule),
             },
-
-
+            {
+                path: 'NguoiDung',
+                loadChildren: () => import('./modules/nguoi-dung/nguoi-dung.module').then(m => m.NguoiDungModule),
+            },
             {path: 'SettingUser', component: SettingUserComponent}
         ]
     },

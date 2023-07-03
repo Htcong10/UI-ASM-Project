@@ -835,7 +835,7 @@ body .p-overlay-badge .p-badge {
   border-bottom-right-radius: 0;
 }
 
-@media (max-width: 991px) {
+@media (max-width: 990px) {
   .layout-topbar {
     height: auto;
     display: flex;

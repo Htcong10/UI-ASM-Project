@@ -17,4 +17,6 @@ export class AppUser extends AbstractAuditing {
     avatar: any;
     appRoles: any;
     lstRoleId: any[];
+    userType : string;
+    accountId: number;
 }

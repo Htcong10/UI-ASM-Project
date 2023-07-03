@@ -1,0 +1,102 @@
+<div class="grid dashboard">
+    <div class="col-12 lg:col-4">
+        <div class="card-fix height-50">
+            <div class="card-header">
+                <h5>Hóa đơn cần thanh toán</h5>
+            </div>
+            <ul class="widget-list">
+                <li class="flex py-3">
+                    <div class="flex align-items-center">
+                        <i class="pi pi-star p-2 lightblue-bgcolor white-color widget-list-item-radius"></i>
+                        <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
+                            <div>Design Team | Sprint 021</div>
+                            <small class="muted-text">21MB</small>
+                        </div>
+                    </div>
+                    <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
+                            [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
+                    <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-outlined"></button>
+                </li>
+                <li class="flex py-3">
+                    <div class="flex align-items-center">
+                        <i class="pi pi-file-excel p-2 yellow-bgcolor text-color widget-list-item-radius"></i>
+                        <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
+                            <div>Elite Report 2020-Q4</div>
+                            <small class="muted-text">56.00MB</small>
+                        </div>
+                    </div>
+                    <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
+                            [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
+                    <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-outlined"></button>
+                </li>
+                <li class="flex py-3">
+                    <div class="flex align-items-center">
+                        <i class="pi pi-image p-2 teal-bgcolor white-color widget-list-item-radius"></i>
+                        <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
+                            <div>Ultima Marketing Assets</div>
+                            <small class="muted-text">1.29GB</small>
+                        </div>
+                    </div>
+                    <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
+                            [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
+                    <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-outlined"></button>
+                </li>
+                <li class="flex py-3">
+                    <div class="flex align-items-center">
+                        <i class="pi pi-file p-2 bluegrey-bgcolor white-color widget-list-item-radius"></i>
+                        <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
+                            <div>Ultima Remastered Docs</div>
+                            <small class="muted-text">26.54KB</small>
+                        </div>
+                    </div>
+                    <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
+                            [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
+                    <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-outlined"></button>
+                </li>
+                <li class="flex py-3">
+                    <div class="flex align-items-center">
+                        <i class="pi pi-key p-2 purple-bgcolor white-color widget-list-item-radius"></i>
+                        <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
+                            <div>Keychain</div>
+                            <small class="muted-text">320.09KB</small>
+                        </div>
+                    </div>
+                    <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
+                            [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
+                    <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-outlined"></button>
+                </li>
+                <li class="flex py-3">
+                    <div class="flex align-items-center">
+                        <i class="pi pi-th-large p-2 pink-bgcolor white-color widget-list-item-radius"></i>
+                        <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
+                            <div>U03 - Feedback Session</div>
+                            <small class="muted-text">128.45KB</small>
+                        </div>
+                    </div>
+                    <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
+                            [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
+                    <button pButton pRipple type="button" icon="pi pi-arrow-down" class="p-button-outlined"></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-12 lg:col-4">
+        <div class="card-fix widget-overlay mt-5 height-20">
+            <div class="overlay-header p-3">
+                <p-chart type="line" [data]="chartData" [options]="chartOptions" responsive="true"
+                         height="100%"></p-chart>
+            </div>
+        </div>
+        <div class="card-fix mt-1 height-30">
+            <div class="card p-0">
+                <div class="flex flex-column align-items-center indigo-bgcolor white-color p-2 fs-large">
+                    <span>BASIC</span>
+                    <h1 class="font-bold">$5</h1>
+                    <span>Monthly</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-4">
+    </div>
+</div>

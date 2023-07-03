@@ -1,0 +1,33 @@
+.card-fix {
+    background: none;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
+}
+.item{
+    display:flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+    background: rgba(211, 211, 211, 0.42);
+    box-shadow: 5px 7px 9px rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(9px);
+    border-radius: 12px
+}
+.apart-list-detail {
+    flex: 2;
+    margin-left: 20px;
+    overflow: auto; /* Thêm thuộc tính overflow: auto để hiển thị thanh cuộn nếu cần */
+    max-height: 150px; /* Đặt kích thước tối đa cho phần tử */
+}
+.apart-list-detail{
+    flex: 2;
+    margin-left: 20px;
+}
+.apart-list-action {
+    flex: 1;
+    margin-right: 32px;
+}
+
+
+

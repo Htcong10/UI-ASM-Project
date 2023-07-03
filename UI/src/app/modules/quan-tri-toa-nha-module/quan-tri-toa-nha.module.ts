@@ -6,11 +6,13 @@ import {ComponentModule} from '../components-module/component.modules';
 import {RouterModule, Routes} from "@angular/router";
 import { DanhMucCanHoComponent } from './component/danh-muc-can-ho/danh-muc-can-ho.component';
 import { DanhMucThietBiComponent } from './component/danh-muc-thiet-bi/danh-muc-thiet-bi.component';
+import { DanhMucThongBaoComponent } from './component/danh-muc-thong-bao/danh-muc-thong-bao.component';
 
 
 const routes: Routes = [
     {path: 'Canho', component: DanhMucCanHoComponent},
-    {path: 'Thietbi',component: DanhMucThietBiComponent}
+    {path: 'Thietbi',component: DanhMucThietBiComponent},
+    {path: 'Thongbao',component: DanhMucThongBaoComponent}
 ]
 
 @NgModule({
@@ -22,7 +24,8 @@ const routes: Routes = [
     ],
     declarations: [
     DanhMucCanHoComponent,
-    DanhMucThietBiComponent
+    DanhMucThietBiComponent,
+    DanhMucThongBaoComponent
   ],
     exports: [],
     providers: [

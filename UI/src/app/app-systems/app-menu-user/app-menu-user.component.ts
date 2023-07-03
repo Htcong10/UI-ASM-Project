@@ -1,14 +1,16 @@
 import {AfterViewInit, Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatSidenav} from '@angular/material/sidenav';
 import {delay, filter} from 'rxjs/operators';
-import {untilDestroyed} from '@ngneat/until-destroy';
+import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
 import {NavigationEnd, Router} from '@angular/router';
 import {BreakpointObserver} from '@angular/cdk/layout';
 import * as API from '../../services/apiURL';
 import {AppComponent} from '../../app.component';
 import {iServiceBase, ShareData} from 'src/app/modules/compoents-customer-module/components-customer';
 import {AppMainComponent} from '../../app.main.component';
-
+import {MenuItem} from 'primeng/api';
+import {AppNotificationModel} from '../../modules/quan-tri-toa-nha-module/model/app-notification.model';
+@UntilDestroy()
 @Component({
     selector: 'app-menu-user',
     templateUrl: './app-menu-user.component.html',
@@ -17,30 +19,27 @@ import {AppMainComponent} from '../../app.main.component';
 export class AppMenuUserComponent implements AfterViewInit, OnInit  {
     email: string;
     username: string;
-    isSidebarLocked: boolean = true;
-    isSidebarClosed: boolean = false;
-    searchQuery: string;
-
+    @ViewChild(MatSidenav)
+    sidenav!: MatSidenav;
+    items: MenuItem[];
+    userName: any;
+    userFullName: any;
+    lstNotifi: any;
+    numNotifi : number;
+     fullName: any;
     constructor(private observer: BreakpointObserver, private router: Router, public app: AppComponent,
                 private shareData: ShareData,
                 private iServiceBase: iServiceBase,
                 public appMain: AppMainComponent,) {
     }
 
-    ngOnInit(): void {
+    async ngOnInit() {
         this.getInfoCurrentUser();
-
-    }
-
-    toggleLock() {
-        this.isSidebarLocked = !this.isSidebarLocked;
-        if (!this.isSidebarLocked) {
-            this.isSidebarClosed = false;
-        }
-    }
-
-    toggleSidebar() {
-        this.isSidebarClosed = !this.isSidebarClosed;
+        await this.onSearchNotifi();
+        this.items = [
+            {label: 'Angular.io', icon: 'pi pi-external-link', url: 'http://angular.io'},
+            {label: 'Theming', icon: 'pi pi-bookmark', routerLink: ['/theming']}
+        ];
     }
 
     async getInfoCurrentUser() {
@@ -53,13 +52,50 @@ export class AppMenuUserComponent implements AfterViewInit, OnInit  {
                 this.shareData.userRoles = response.appRoles;
                 //Lưu vào Session để lần sau dùng các thím ạ
                 sessionStorage.setItem('USER_CURRENT', JSON.stringify(response));
+                localStorage.setItem('USER_CURRENT', JSON.stringify(response));
                 // sessionStorage.setItem('USER_ROLES', JSON.stringify(response.appRoles));
+                let url = 'https://localhost:44395/api/Resident/GetResidentById';
+                const params = response.accountId;
+                let responseUser = await this.iServiceBase.postDataAsyncTest(url, params);
+                if (responseUser && responseUser.state) {
+                    this.fullName = responseUser.data.fullName;
+                    sessionStorage.setItem('RESIDENT', JSON.stringify(responseUser));
+
+                }
             }
         } catch (e) {
             console.log(e);
         }
     }
-
+    async onSearchNotifi() {
+        try {
+            let url = 'https://localhost:44310/api/Notification/GetMultiNotifications';
+            let type = JSON.parse(sessionStorage.getItem('USER_CURRENT')).accountId;
+            let param = {
+                type: 3,
+                listReciverId: [type.toString()]
+            };
+            let response = await this.iServiceBase.postDataAsyncTest(url, param);
+            if (response && response.state) {
+                this.lstNotifi = response.data;
+                this.lstNotifi.sort((a, b) => a.isRead - b.isRead);
+                this.numNotifi = this.lstNotifi.filter(c => c.isRead == 0).length;
+            }
+        } catch (e) {
+            console.log('khong load dc');
+        }
+    }
+    async updateChangeNotifi(noti){
+        if(!noti.isRead)
+        {
+            noti.isRead = 1;
+            let url = 'https://localhost:44310/api/Notification/UpdateNotificationById';
+            let response = await this.iServiceBase.postDataAsyncTest(url, noti);
+            if (response && response.state) {
+                this.onSearchNotifi();
+            }
+        }
+    }
     logOut(event) {
         //Logout thì xóa đi
         sessionStorage.clear();
@@ -90,64 +126,17 @@ export class AppMenuUserComponent implements AfterViewInit, OnInit  {
     }
     ngAfterViewInit()
     {
-        // Selecting the sidebar and buttons
-        const sidebar = document.querySelector(".sidebar");
-        const sidebarOpenBtn = document.querySelector("#sidebar-open");
-        const sidebarCloseBtn = document.querySelector("#sidebar-close");
-        const sidebarLockBtn = document.querySelector("#lock-icon");
-
-        // Function to toggle the lock state of the sidebar
-        const toggleLock = () => {
-            sidebar.classList.toggle("locked");
-            // If the sidebar is not locked
-            if (!sidebar.classList.contains("locked")) {
-                sidebar.classList.add("hoverable");
-                sidebarLockBtn.classList.replace("pi-lock", "pi-unlock");
-
-            } else {
-                sidebar.classList.remove("hoverable");
-                sidebarLockBtn.classList.replace("pi-unlock", "pi-lock");
-            }
-        };
-
-        // Function to hide the sidebar when the mouse leaves
-        const hideSidebar = () => {
-            if (sidebar.classList.contains("hoverable")) {
-                sidebar.classList.add("close");
-            }
-        };
-
-        // Function to show the sidebar when the mouse enters
-        const showSidebar = () => {
-            if (sidebar.classList.contains("hoverable")) {
-                sidebar.classList.remove("close");
-            }
-        };
-
-        // Function to show and hide the sidebar
-        const toggleSidebar = () => {
-            sidebar.classList.toggle("close");
-        };
-
-        // this.observer
-        //     .observe(['(max-width: 992px)'])
-        //     .pipe(delay(1), untilDestroyed(this))
-        //     .subscribe((res) => {
-        //         if (res.matches) {
-        //             sidebar.classList.add("close");
-        //             sidebar.classList.add("hoverable");
-        //             sidebar.classList.remove("locked");
-        //         } else {
-        //             sidebar.classList.add("close");
-        //             sidebar.classList.add("hoverable");
-        //             sidebar.classList.remove("locked");
-        //         }
-        //     });
-        // Adding event listeners to buttons and sidebar for the corresponding actions
-        sidebarLockBtn.addEventListener("click", toggleLock);
-        sidebar.addEventListener("mouseleave", hideSidebar);
-        sidebar.addEventListener("mouseenter", showSidebar);
-        sidebarOpenBtn.addEventListener("click", toggleSidebar);
-        sidebarCloseBtn.addEventListener("click", toggleSidebar);
+        this.observer
+            .observe(['(max-width: 990px)'])
+            .pipe(delay(1), untilDestroyed(this))
+            .subscribe((res) => {
+                if (res.matches) {
+                    this.sidenav.mode = 'over';
+                    this.sidenav.close();
+                } else {
+                    this.sidenav.mode = 'side';
+                    this.sidenav.open();
+                }
+            });
     }
 }

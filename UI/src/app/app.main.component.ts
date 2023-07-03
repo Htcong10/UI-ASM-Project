@@ -1,15 +1,23 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, Renderer2} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, Renderer2, ViewChild} from '@angular/core';
 import {MenuService} from './app-systems/app-menu/app.menu.service';
-import {PrimeNGConfig} from 'primeng/api';
+import {MegaMenuItem, PrimeNGConfig} from 'primeng/api';
 import {AppComponent} from './app.component';
 import {ShareData} from './modules/compoents-customer-module/shared-data-services/sharedata.service';
+import {MatSidenav} from '@angular/material/sidenav';
+import {BreakpointObserver} from '@angular/cdk/layout';
+import {UntilDestroy, untilDestroyed} from '@ngneat/until-destroy';
+import {delay, filter} from 'rxjs/operators';
+import {NavigationEnd, Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {parseJson} from '@angular/cli/utilities/json-file';
 
+@UntilDestroy()
 @Component({
     selector: 'app-main',
-    templateUrl: './app.main.component.html'
+    templateUrl: './app.main.component.html',
+    styleUrls: ['./app.component.scss']
 })
-export class AppMainComponent implements AfterViewInit, OnInit, OnDestroy {
-
+export class AppMainComponent implements AfterViewInit, OnInit {
     topbarMenuActive: boolean;
 
     menuActive: boolean;
@@ -44,14 +52,19 @@ export class AppMainComponent implements AfterViewInit, OnInit, OnDestroy {
 
     currentInlineMenuKey: string;
     inlineMenuActive: any[] = [];
-
     inlineMenuClick: boolean;
-
+    @ViewChild(MatSidenav)
+    sidenav!: MatSidenav;
+    checkTypeUser : boolean = true;
     constructor(public renderer: Renderer2, private menuService: MenuService, private primengConfig: PrimeNGConfig,
-                public app: AppComponent) {
+                public app: AppComponent, private observer: BreakpointObserver, private router: Router) {
     }
 
     ngOnInit() {
+
+        let type = JSON.parse(sessionStorage.getItem('USER_ROLES')).roleKey;
+        if(type == 'ROLE_USER')
+            this.checkTypeUser = false;
         this.menuActive = this.isStatic() && !this.isMobile();
     }
 
@@ -99,6 +112,18 @@ export class AppMainComponent implements AfterViewInit, OnInit, OnDestroy {
             this.topbarRightClick = false;
             this.menuClick = false;
         });
+        this.observer
+            .observe(['(max-width: 1000px)'])
+            .pipe(delay(1), untilDestroyed(this))
+            .subscribe((res) => {
+                if (res.matches) {
+                    this.sidenav.mode = 'over';
+                    this.sidenav.close();
+                } else {
+                    this.sidenav.mode = 'side';
+                    this.sidenav.open();
+                }
+            });
     }
 
     onMenuButtonClick(event) {
@@ -227,9 +252,10 @@ export class AppMainComponent implements AfterViewInit, OnInit, OnDestroy {
         }
     }
 
-    ngOnDestroy() {
-        if (this.documentClickListener) {
-            this.documentClickListener();
-        }
-    }
+    // ngOnDestroy() {
+    //     if (this.documentClickListener) {
+    //         this.documentClickListener();
+    //     }
+    // }
+    protected readonly ChannelMergerNode = ChannelMergerNode;
 }

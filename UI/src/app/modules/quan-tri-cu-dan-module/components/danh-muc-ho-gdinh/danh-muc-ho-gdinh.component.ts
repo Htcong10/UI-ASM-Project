@@ -151,7 +151,8 @@ export class DanhMucHoGdinhComponent extends iComponentBase implements OnInit {
                 }
             });
             hoGdinhex.push(HoGDinhModel);
-            const responseHouse = await this.iServiceBase.postData(API.PHAN_HE.CUDAN, API.API_HO_GDINH.UPDATE_LIST_HOUSEH, hoGdinhex).toPromise();
+            let url = 'https://localhost:44395/api/HouseHold/UpdateHouseByListId'
+            const responseHouse = await this.iServiceBase.postDatatest(url, hoGdinhex).toPromise();
             return responseHouse;
         }
         catch (e) {

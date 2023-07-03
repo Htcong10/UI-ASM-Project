@@ -130,7 +130,12 @@ export class LoginComponent extends iComponentBase implements OnInit {
                 sessionStorage.setItem('USER_ROLES', JSON.stringify(response.appRole));
                 this.shareData.userRoles = response.appRole;
             }
-            this.router.navigate(['/Home']);
+            if(response.appRole.roleKey == 'ROLE_USER')
+            {
+                this.router.navigate(['/Home/NguoiDung/TrangChu']);
+            }
+            else
+                this.router.navigate(['/Home']);
         } else {
             this.showMessage(mType.error, 'Thông báo', 'Đăng nhập không thành công. Vui lòng kiểm tra lại', 'app-login');
         }

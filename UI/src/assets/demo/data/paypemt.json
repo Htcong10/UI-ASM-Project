@@ -1,0 +1,118 @@
+{
+    "data": [
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 01/2023",
+            "description": "50,450,000",
+            "createdDate" : "10/01/2023",
+            "status" : 0
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 02/2023",
+            "description": "50,450,000",
+            "createdDate" : "10/02/2023",
+            "status" : 0
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 03/2023",
+            "description": "50,450,000",
+            "createdDate" : "10/03/2023",
+            "status" : 0
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 04/2023",
+            "description": "50,450,000",
+            "createdDate" : "10/04/2023",
+            "status" : 0
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí thu dọn vệ sinh",
+            "description": "50,450,000",
+            "createdDate" : "10/03/2023",
+            "status" : 0
+
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 06/2023",
+            "description": "50,450,000",
+            "createdDate" : "10/06/2023",
+            "status" : 0
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 07/2023",
+            "description": "50,450,000",
+            "createdDate": "10/07/2023",
+            "status" : 1
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 01/2023",
+            "description": "50,450,000",
+            "createdDate" : "10/01/2023",
+            "status" : 1
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 02/2023",
+            "description": "50,450,000",
+            "createdDate" : "10/02/2023",
+            "status" : 1
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 03/2023",
+            "description": "50,450,000",
+            "createdDate" : "10/03/2023",
+            "status" : 1
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 04/2023",
+            "description": "50,450,000",
+            "createdDate" : "10/04/2023",
+            "status" : 1
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí thu dọn vệ sinh",
+            "description": "50,450,000",
+            "createdDate" : "10/03/2023",
+            "status" : 1
+
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 06/2023",
+            "description": "50,450,000",
+            "createdDate" : "10/06/2023",
+            "status" : 1
+        },
+        {
+            "id": "1000",
+            "code": "f230fh0g3",
+            "name": "Thông báo phí tháng 07/2023",
+            "description": "50,450,000",
+            "createdDate": "10/07/2023",
+            "status" : 1
+        }
+    ]
+}

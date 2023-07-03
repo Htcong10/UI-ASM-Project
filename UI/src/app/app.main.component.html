@@ -1,4 +1,4 @@
-<div class="layout-wrapper" [ngClass]="{'p-input-filled': app.inputStyle === 'filled', 'p-ripple-disabled': !app.ripple,
+<div *ngIf="checkTypeUser" class="layout-wrapper" [ngClass]="{'p-input-filled': app.inputStyle === 'filled', 'p-ripple-disabled': !app.ripple,
         'layout-menu-static': isStatic(),
         'layout-menu-overlay': isOverlay(),
         'layout-menu-horizontal': isHorizontal(),
@@ -30,28 +30,8 @@
     </div>
 
     <app-config></app-config>
-
-    <div *ngIf="mobileMenuActive" class="layout-mask modal-in"></div>
 </div>
-<!--<div class="layout-wrapper" [ngClass]="{'p-input-filled': app.inputStyle === 'filled', 'p-ripple-disabled': !app.ripple,-->
-<!--        'layout-menu-static': isStatic(),-->
-<!--        'layout-menu-overlay': isOverlay(),-->
-<!--        'layout-menu-horizontal': isHorizontal(),-->
-<!--        'layout-menu-slim': isSlim(),-->
-<!--        'layout-menu-active': menuActive,-->
-<!--        'layout-menu-mobile-active': mobileMenuActive,-->
-<!--        'layout-topbar-mobile-active': mobileTopbarActive,-->
-<!--        'layout-rightmenu-active': rightMenuActive,-->
-<!--        'layout-rtl': app.isRTL}"-->
-<!--     [class]="'layout-menu-' + app.menuTheme + ' layout-topbar-' + app.topbarTheme">-->
-<!--    <div class="layout-menu-container">-->
-<!--        <app-menu-user></app-menu-user>-->
-<!--    </div>-->
-<!--<div class="layout-main">-->
-<!--    &lt;!&ndash;        <app-breadcrumb></app-breadcrumb>&ndash;&gt;-->
+<div *ngIf="!checkTypeUser">
+    <app-menu-user></app-menu-user>
+</div>
 
-<!--    <div class="layout-content">-->
-<!--        <router-outlet></router-outlet>-->
-<!--    </div>-->
-<!--</div>-->
-<!--</div>-->

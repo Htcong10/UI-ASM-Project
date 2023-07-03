@@ -1,0 +1,278 @@
+<div class="grid p-fluid">
+    <div class="col-12 md:col-12">
+        <div class="card">
+            <p-divider align="left">
+                <div class="p-d-inline-flex p-ai-center">
+                    <b>Điều kiện tìm kiếm</b>
+                </div>
+            </p-divider>
+            <div class="grid">
+                <div class="col-12 mb-2 lg:col-3 mb-lg-0">
+                        <span class="p-float-label">
+                            <p-dropdown [options]="lstType"
+                                        [showClear]="true"
+                                        [autoDisplayFirst]="false" (onChange)="changeListReciver($event,null)"
+                            ></p-dropdown>
+                            <label>Chọn đối tượng</label>
+                        </span>
+                </div>
+                <div class="col-12 mb-2 lg:col-3 mb-lg-0">
+                            <span class="p-float-label">
+                                    <p-multiSelect [options]="lstReciver" [(ngModel)]="selectedReciver"
+                                                   [disabled]="showFind"
+                                                   appendTo="body" defaultLabel="Chọn thành viên"
+                                                   [optionLabel]="labelName"
+                                                   selectedItemsLabel="{0} thành viên đã chọn"
+                                                   defaultValue="true" display="chip">
+                                    </p-multiSelect>
+                            </span>
+                </div>
+                <div class="col-12 mb-2 lg:col-3 mb-lg-0"></div>
+                <div class="col-12 mb-2 lg:col-3 mb-lg-0" style="text-align: center">
+                    <button pButton type="button" label="Tìm kiếm" icon="pi pi-search"
+                            (click)="loadMember(null)"
+                            style="width: 100%;"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="grid table-demo">
+    <div class="col-12">
+        <div class="card">
+            <p>Danh sách thông báo</p>
+            <p-table #dt [value]="lstAppNoti" [(selection)]="selectedNotifi" dataKey="id"
+                     styleClass="p-datatable-customers" [rowHover]="true" [rows]="10"
+                     [showCurrentPageReport]="true"
+                     [paginator]="true" [filterDelay]="0" [rowsPerPageOptions]="[5,10,25,50]"
+                     currentPageReportTemplate="Hiển thị từ {first} đến {last} trong tổng {totalRecords} thông báo"
+                     [globalFilterFields]="['phoneNumber','fullName','address','email']" responsiveLayout="scroll"
+                     [loading]="loading">
+                <ng-template pTemplate="caption">
+                    <div class="grid">
+                        <div class="col-6">
+                            <span class="p-input-icon-left">
+                                <i class="pi pi-search"></i>
+                                <input pInputText type="text"
+                                       (input)="dt.filterGlobal($event.target.value, 'contains')"
+                                       placeholder="Tìm kiếm thông báo"/>
+                            </span>
+                        </div>
+                        <div class="col-2">&nbsp;</div>
+                        <div class="col-2" style="text-align: center">
+                            <button pButton type="button" label="Thêm mới" icon="pi pi-plus"
+                                    (click)="onCreateNotifi()"
+                                    style="width: 100%;"></button>
+                        </div>
+                        <div class="col-2" style="text-align: center">
+                            <button pButton type="button" label="Xóa" icon="pi pi-trash"
+                                    style="width: 100%;" (click)="onDeleteListNotifi()"
+                                    [disabled]="!selectedNotifi || selectedNotifi.length == 0"
+                                    class="p-button-danger"></button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="Name">
+                            <div class="flex justify-content-between align-items-center">
+                                Tiêu đề
+                                <p-sortIcon field="residentName"></p-sortIcon>
+                                <p-columnFilter type="text" field="fullName" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="message">
+                            <div class="flex justify-content-between align-items-center">
+                                Nội dung
+                                <p-sortIcon field="message"></p-sortIcon>
+                                <p-columnFilter type="text" field="message" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="phoneNumber">
+                            <div class="flex justify-content-between align-items-center">
+                                Ngày tạo
+                                <p-sortIcon field="phoneNumber"></p-sortIcon>
+                                <p-columnFilter type="text" field="phoneNumber" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="object">
+                            <div class="flex justify-content-between align-items-center">
+                                Đối tượng
+                                <p-sortIcon field="object"></p-sortIcon>
+                                <p-columnFilter type="text" field="object" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="recivers">
+                            <div class="flex justify-content-between align-items-center">
+                                Người nhận
+                                <p-sortIcon field="recivers"></p-sortIcon>
+                                <p-columnFilter type="text" field="recivers" display="menu"
+                                                class="ml-auto"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th>
+                            <div style="text-align: center;"
+                                 class="justify-content-between align-items-center">
+                                Trạng thái
+                            </div>
+                        </th>
+                        <th style="width: 8rem">
+                            <div style="text-align: center;"
+                                 class="justify-content-between align-items-center">
+                                Tác vụ
+                            </div>
+                        </th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-notifi>
+                    <tr class="p-selectable-row">
+                        <td>
+                            <p-tableCheckbox [value]="notifi"></p-tableCheckbox>
+                        </td>
+                        <td>
+                            {{notifi.title}}
+                        </td>
+                        <td>
+                            {{notifi.messages}}
+                        </td>
+                        <td>
+                            {{notifi.createdDate| date: 'dd/MM/yyyy'}}
+                        </td>
+                        <td>
+                            {{notifi.doiTuong}}
+                        </td>
+                        <td>
+                            <p-dropdown [options]="notifi.nguoiNhan"
+                                        [showClear]="true"
+                                        [autoDisplayFirst]="false"
+                            ></p-dropdown>
+                        </td>
+                        <td style="text-align: center;">
+                            <button *ngIf="notifi.isRead" pButton pRipple type="button"
+                                    label="Đã đọc"
+                                    class="p-button-rounded p-button-secondary mr-2 mb-2"></button>
+                            <button *ngIf="!notifi.isRead" pButton pRipple type="button"
+                                    label="Chưa đọc"
+                                    class="p-button-rounded p-button-danger mr-2 mb-2"></button>
+                        </td>
+                        <td style="text-align: center">
+                            <div class="grid">
+                                <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                                    <button pButton pRipple icon="pi pi-pencil"
+                                            (click)="onUpdateNotifi(notifi)"
+                                            class="p-button-rounded p-mr-2"></button>
+                                </div>
+                                <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                                    <button pButton pRipple icon="pi pi-trash"
+                                            (click)="onDeleteNotifi(notifi, $event)"
+                                            class="p-button-rounded p-button-danger"></button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="8">Không có thông báo nào.</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</div>
+<p-dialog [header]="headerDialog" [(visible)]="notifiDialog"
+          [breakpoints]="{'1000px': '75vw'}"
+          [style]="{width: '50vw', height: '65vh'}"
+          [modal]="true"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <ng-template pTemplate="content" style="justify-content: center!important;align-content: center!important;">
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-12">
+                <div class="card">
+                    <p-divider align="left">
+                        <div class="p-d-inline-flex p-ai-center">
+                            <b>Thông báo</b>
+                        </div>
+                    </p-divider>
+                    <div class="grid">
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-float-label" style="width: 100%">
+                            <input type="text" pInputText id="title"
+                                   [(ngModel)]="notifiModel.title" required autofocus/>
+                        <label for="title">Tiêu đề*</label>
+                        </span>
+                        </div>
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <p-dropdown [options]="lstForm" [(ngModel)]="notifiModel.notificationForm"
+                                        [showClear]="true"
+                                        [autoDisplayFirst]="false"
+                            ></p-dropdown>
+                            <label>Chọn thể loại</label>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+                        <span class="p-input-icon-left p-float-label" style="width: 100%">
+                            <p-dropdown [options]="lstType" [(ngModel)]="notifiModel.notificationType"
+                                        [showClear]="true"
+                                        [autoDisplayFirst]="false" (onChange)="changeListReciver($event,null)"
+                            ></p-dropdown>
+                            <label>Chọn đối tượng</label>
+                        </span>
+                        </div>
+                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
+					    <span class="p-input-icon-left p-float-label" style="width: 100%">
+                                                     <p-multiSelect [options]="lstReciver"
+                                                                    [(ngModel)]="selectedReciverCreate"
+                                                                    [disabled]="showFind"
+                                                                    defaultLabel="Chọn thành viên"
+                                                                    [optionLabel]="labelName" display="chip">
+                            </p-multiSelect>
+					    </span>
+                        </div>
+                    </div>
+                    <div class="field">
+                    <span class="p-float-label">
+                    <textarea rows="5" cols="30" class="w-full" pInputTextarea
+                              [(ngModel)]="notifiModel.messages"></textarea>
+                    <label>Nội dung</label>
+                    </span>
+                    </div>
+                    <p-divider align="left">
+                        <div class="p-d-inline-flex p-ai-center">
+                        </div>
+                    </p-divider>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="grid" style="text-align: center ; justify-content: center;">
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Lưu" icon="pi pi-save"
+                        (click)="onSaveNotifi()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Hủy bỏ" icon="pi pi-times"
+                        (click)="onCancelNotifi()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+<p-toast baseZIndex='99999' key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="deleteList" header="Xóa thông báo"
+                 icon="pi pi-exclamation-triangle"></p-confirmDialog>

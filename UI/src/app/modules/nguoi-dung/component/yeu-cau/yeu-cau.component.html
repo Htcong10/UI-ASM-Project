@@ -1,0 +1,182 @@
+<div class="grid list-demo">
+    <div class="col-12">
+        <div class="card-fix">
+            <p-dataView #dv [value]="lstAppRequire" [paginator]="true" [rows]="9" filterBy="title,descript"
+                        [sortField]="sortField" [sortOrder]="sortOrder" layout="list">
+                <ng-template pTemplate="header">
+                    <div class="flex flex-column md:flex-row md:justify-content-between">
+                        <div class="flex flex-row mb-2 md:mb-0">
+                            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By Date"
+                                        (onChange)="onSortChange($event)" styleClass="mr-2"></p-dropdown>
+                            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input type="search" pInputText placeholder="Search by Name"
+                       (input)="dv.filter($event.target.value)">
+            </span>
+                        </div>
+                        <div class="p-input-icon-left mb-2 md:mb-0">
+                            <button pButton type="button" label="Thêm mới" icon="pi pi-plus" (click)="onCreateRequire()"
+                                    style="width: 100%;"></button>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template let-require pTemplate="listItem">
+                    <div class="col-12">
+                        <div class="apart-list-item item">
+                            <img style="flex: 1;border-radius: 12px 0px 0px 12px; width:250px; height: 150px;"
+                                 [src]="require.fileDinhKem ? 'assets/imageApart/' + require.fileDinhKem : ''"
+                                 [alt]="require.title"/>
+                            <div class="apart-list-detail">
+                                <h3 class="apart-name">{{require.title}}</h3>
+                                <div class="apart-description">{{require.descript}}</div>
+
+                                <button *ngIf="require.status == 'Thành công'" pButton pRipple type="button"
+                                        class="p-button-success mr-2 mb-2">{{require.status}}</button>
+                                <button *ngIf="require.status != 'Thành công'" pButton pRipple type="button"
+                                        class="p-button-warning mr-2 mb-2">{{require.status}}</button>
+                                <p-rating [ngModel]="require.rating" [readonly]="true" [cancel]="false"></p-rating>
+                            </div>
+                            <div class="apart-list-action flex flex-column align-items-end">
+                                <span class="apart-price">{{require.apartmentId}}</span>
+                                <p-button class="mb-2" type="button" styleClass="p-button p-button-rounded mr-2"
+                                          icon="pi pi-eye" label="Xem yêu cầu" (click)="onUpdateModel(require)"
+                                ></p-button>
+                                <p-button class="mb-2" type="button" styleClass="p-button p-button-rounded mr-2"
+                                          icon="pi pi-search" label="Xem ảnh"
+                                          (click)="onDisplayGalleria(require.lstGalleria)"></p-button>
+                                <i class="pi pi-clock" class="mb-2">{{require.createdDate| date: 'dd/MM/yyyy'}}</i>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataView>
+        </div>
+    </div>
+</div>
+<p-dialog [header]="headerDialog" [(visible)]="isShowDialog"
+          [breakpoints]="{'1000px': '75vw'}"
+          [style]="{width: '50vw', height: '65vh'}"
+          [modal]="true"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <ng-template pTemplate="content" style="justify-content: center!important;align-content: center!important;">
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-12">
+                <div class="card">
+                    <p-divider align="left">
+                        <div class="p-d-inline-flex p-ai-center">
+                            <b>Thông báo</b>
+                        </div>
+                    </p-divider>
+                    <div class="field">
+                    <span class="p-float-label" style="width: 100%">
+                            <input type="text" pInputText id="title"
+                                   [(ngModel)]="requireModel.title" required autofocus/>
+                        <label for="title">Tiêu đề*</label>
+                        </span>
+                    </div>
+                    <div class="field">
+                    <span class="p-float-label">
+                    <textarea rows="5" cols="30" class="w-full" pInputTextarea
+                              [(ngModel)]="requireModel.descript"></textarea>
+                    <label>Nội dung</label>
+                    </span>
+                    </div>
+                    <p-fieldset legend="Tải ảnh lên" [toggleable]="true">
+                        <div class="field">
+                            <label>Hình ảnh yêu cầu*</label>
+                            <span class="p-float-label">
+                                                        <p-fileUpload #fileUploader name="demo[]"
+                                                                      url="./upload.php"
+                                                                      chooseLabel="Chọn file" uploadLabel="Tải lên"
+                                                                      cancelLabel="Huỷ"
+                                                                      (onBeforeUpload)="onBeforeUpload($event)"
+                                                                      customUpload="true" accept="image/*"
+                                                                      (uploadHandler)="onFileSelected($event)"
+                                                                      multiple="multiple" maxFileSize="65000000">
+                                                        </p-fileUpload>
+                        </span>
+                        </div>
+                        <div class="grid">
+                            <div *ngIf="requireModel.lstGalleria" class="col-12">
+                                <p-table [value]="requireModel.lstGalleria"
+                                         selectionMode="single"
+                                         styleClass="p-datatable-gridlines" responsiveLayout="scroll">
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th [style]="{'width':'70%','text-align':'center'}">Tên file</th>
+                                            <th [style]="{'width':'10%','text-align':'center'}">Xem file</th>
+                                            <th [style]="{'width':'10%','text-align':'center'}">Tải về</th>
+                                            <th [style]="{'width':'10%','text-align':'center'}">Xoá file</th>
+                                        </tr>
+                                    </ng-template>
+
+                                    <ng-template pTemplate="body" let-row>
+                                        <tr [pSelectableRow]="row">
+                                            <td [style]="{'width':'70%', 'text-align':'center'}">{{row}}</td>
+                                            <td [style]="{'width':'10%','text-align':'center'}">
+                                                <button type="button" pButton
+                                                        icon="pi pi-eye" (click)="onShowImage(row)"></button>
+                                            </td>
+                                            <td [style]="{'width':'10%','text-align':'center'}">
+                                                <button type="button" pButton
+                                                        icon="pi pi-download" (click)="taiFile(row)"></button>
+                                            </td>
+                                            <td [style]="{'width':'10%','text-align':'center'}">
+                                                <button [disabled]="" type="button" pButton
+                                                        icon="pi pi-trash" (click)="deleteFile(row)"></button>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </p-fieldset>
+                    <p-divider align="left">
+                        <div class="p-d-inline-flex p-ai-center">
+                        </div>
+                    </p-divider>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="grid" style="text-align: center ; justify-content: center;">
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Lưu" icon="pi pi-save"
+                        (click)="onSaveRequire()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Hủy bỏ" icon="pi pi-times"
+                        (click)="onCancelRequire()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>
+<p-dialog [header]="'Thư viện ảnh'" [(visible)]="isShowGalleria"
+          [breakpoints]="{'960px': '75vw'}"
+          [modal]="true"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <div class="col-12">
+        <div class="card">
+            <h5>Galleria</h5>
+            <p-galleria [value]="lstGalleria" [responsiveOptions]="galleriaResponsiveOptions"
+                        [containerStyle]="{'max-width': '800px', 'margin':'auto'}" [numVisible]="7" [circular]="true">
+                <ng-template pTemplate="item" let-item>
+                    <img src="assets/imageApart/{{item}}" style="width: 800px;height: 600px; display: block;"/>
+                </ng-template>
+                <ng-template pTemplate="thumbnail" let-item>
+                    <div class="grid grid-nogutter justify-content-center">
+                        <img src="assets/imageApart/{{item}}" style="display: block;width: 30%; height: 30%"/>
+                    </div>
+                </ng-template>
+            </p-galleria>
+        </div>
+    </div>
+</p-dialog>
+<p-toast baseZIndex='99999' key="notify"></p-toast>
+
+<p-confirmPopup></p-confirmPopup>
+
+<p-confirmDialog key="deleteList" header="Xóa thông báo"
+                 icon="pi pi-exclamation-triangle"></p-confirmDialog>

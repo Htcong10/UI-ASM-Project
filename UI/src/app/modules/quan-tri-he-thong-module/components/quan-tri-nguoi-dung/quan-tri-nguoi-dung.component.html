@@ -23,7 +23,6 @@
                                        placeholder="Tìm kiếm người dùng"/>
                             </span>
                         </div>
-
                         <div class="col-2">&nbsp;</div>
                         <div class="col-2" style="text-align: center">
                             <button pButton type="button" label="Thêm mới" icon="pi pi-plus"
@@ -139,7 +138,6 @@
                                     {{role.roleName}}
                                 </li>
                             </ul>
-
                         </td>
                         <td>
                             <span class="p-column-title">Được tạo bởi</span>
@@ -180,106 +178,76 @@
         </div>
     </div>
 </div>
-<p-dialog [header]="headerDialog" [(visible)]="userDialog"
+<p-dialog [header]="headerDialog" [(visible)]="accountDialog"
           [breakpoints]="{'960px': '75vw'}"
           [style]="{width: '30vw' }"
           [modal]="true" styleClass="p-fluid"
           [draggable]="false" [resizable]="false" [maximizable]="true">
-          <ng-template pTemplate="content">
-            <div class="grid p-fluid">
-               <div class="col-12 md:col-12">
-                  <div class="card">
-                     <!--        <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image">-->
-                     <!--                    <img [src]="'/assets/demo/images/avatar/amyelsner.png'" class="product-image">-->
-                     <p-divider align="left">
+    <ng-template pTemplate="content">
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-12">
+                <div class="card">
+                    <!--        <img [src]="'assets/showcase/images/demo/product/' + product.image" [alt]="product.image" class="product-image" *ngIf="product.image">-->
+                    <!--                    <img [src]="'/assets/demo/images/avatar/amyelsner.png'" class="product-image">-->
+                    <p-divider align="left">
                         <div class="p-d-inline-flex p-ai-center">
-                           <b>Thông tin người dùng</b>
+                            <b>Thông tin người dùng</b>
                         </div>
-                     </p-divider>
-                     <div class="grid">
-                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                           <span class="p-float-label">
-                           <input type="text" pInputText id="fistName"
-                           [(ngModel)]="userModel.firstName" required autofocus/>
-                           <label for="fistName">Họ*</label>
-                           </span>
-                        </div>
-                        <div class="col-12 mb-2 lg:col-6 mb-lg-0">
-                           <span class="p-float-label">
-                           <input type="text" pInputText id="lastName" [(ngModel)]="userModel.lastName"
-                           required autofocus/>
-                           <label for="lastName">Tên*</label>
-                           </span>
-                        </div>
-                     </div>
-                     <div class="field">
+                    </p-divider>
+                    <div class="field">
+                        <span class="p-float-label">
+                        <p-dropdown [options]="lstAccountHolder" [(ngModel)]="accountSelected"
+                                    [optionLabel]="optionLabel"
+                                    [showClear]="true"
+                                    [autoDisplayFirst]="false" (onChange)="createAcountName()"></p-dropdown>
+                        <label>Chọn chủ tài khoản*</label></span>
+                    </div>
+                    <div class="field">
                         <span class="p-float-label">
                         <input type="text" pInputText id="username" [(ngModel)]="userModel.userName"
-                        required autofocus/>
+                               required autofocus/>
                         <small class="p-error" *ngIf="submitted && !
                            appUser.userName
                            ">username is required.</small>
                         <label for="username">Tên đăng nhập*</label>
                         </span>
-                     </div>
-                     <div class="field">
+                    </div>
+                    <div class="field">
                         <span class="p-float-label">
                         <p-password id="password" [(ngModel)]="userModel.password"
-                        [toggleMask]="true"></p-password>
+                                    [toggleMask]="true"></p-password>
                         <label for="password">Mật khẩu*</label>
                         </span>
-                     </div>
-                     <div class="field">
+                    </div>
+                    <div class="field">
                         <span class="p-float-label">
                         <p-password id="confirmpassword" [(ngModel)]="userModel.confirmPassword"
-                        [toggleMask]="true"></p-password>
+                                    [toggleMask]="true"></p-password>
                         <label for="confirmpassword">Xác nhận mật khẩu*</label>
                         </span>
-                     </div>
-                     <div class="field">
-                        <span class="p-float-label">
-                        <input type="text" pInputText id="email" [(ngModel)]="userModel.email" required
-                        autofocus/>
-                        <label for="email">Email*</label>
-                        </span>
-                     </div>
-                     <div class="field">
-                        <span class="p-float-label">
-                        <input type="text" pInputText id="phone" [(ngModel)]="userModel.phone" required
-                        autofocus/>
-                        <label for="phone">Số điện thoại*</label>
-                        </span>
-                     </div>
-                     <div class="field">
-                        <span class="p-float-label">
-                        <input type="text" pInputText id="address" [(ngModel)]="userModel.address"
-                        required autofocus/>
-                        <label for="address">Địa chỉ</label>
-                        </span>
-                     </div>
-                     <p-divider align="left">
+                    </div>
+                    <p-divider align="left">
                         <div class="p-d-inline-flex p-ai-center">
                         </div>
-                     </p-divider>
-                     <p-fieldset legend="Chọn nhóm quyền" [toggleable]="true">
+                    </p-divider>
+                    <p-fieldset legend="Chọn nhóm quyền" [toggleable]="true">
                         <div class="field">
-                           <p-inputSwitch [(ngModel)]="userModel.active"></p-inputSwitch>
-                           <h6> Kích hoạt</h6>
+                            <p-inputSwitch [(ngModel)]="userModel.active"></p-inputSwitch>
+                            <h6> Kích hoạt</h6>
                         </div>
                         <div class="field">
-                           <p-multiSelect [options]="listAppRole" [(ngModel)]="selectedRoles"
-                           appendTo="body" defaultLabel="Chọn quyền"
-                           optionLabel="roleName"
-                           selectedItemsLabel="{0} quyền đã chọn"
-                           defaultValue="true" display="chip">
-                           </p-multiSelect>
+                            <p-multiSelect [options]="listAppRole" [(ngModel)]="selectedRoles"
+                                           appendTo="body" defaultLabel="Chọn quyền"
+                                           optionLabel="roleName"
+                                           selectedItemsLabel="{0} quyền đã chọn"
+                                           defaultValue="true" display="chip">
+                            </p-multiSelect>
                         </div>
-                     </p-fieldset>
-                  </div>
-               </div>
+                    </p-fieldset>
+                </div>
             </div>
-         </ng-template>
-
+        </div>
+    </ng-template>
     <ng-template pTemplate="footer">
         <div class="grid" style="text-align: center">
             <div class="col-4">&nbsp;</div>
@@ -294,7 +262,30 @@
             <div class="col-4">&nbsp;</div>
         </div>
     </ng-template>
+</p-dialog>
+<p-dialog header="Chọn đối tượng" [(visible)]="userDialog" showEffect="fade" height="100%"
+          position="center"
+          modal="modal">
+    <div class="ui-grid ui-grid-responsive ui-fluid" style="font-size:16px;text-align:left">
+        <div class="ui-g" style="width:350px;margin-bottom:10px">
 
+            <div class="ui-g-12">
+                <p-radioButton name="grpFile" [(ngModel)]="userType" value="0"
+                               label="Nhân viên"></p-radioButton>
+            </div>
+            <div class="ui-g-12">
+                <p-radioButton name="grpFile" [(ngModel)]="userType" value="1"
+                               label="Người dùng"></p-radioButton>
+            </div>
+
+        </div>
+    </div>
+    <p-footer>
+        <button pButton type="button" icon="ui-icon-close" (click)="closeDiaglogClick()"
+                label="Thoát"></button>
+        <button pButton type="button" icon="ui-icon-chevron-right" (click)="isShowDialogSignup()"
+                label="Tiếp tục"></button>
+    </p-footer>
 </p-dialog>
 <p-toast baseZIndex='99999' key="notify"></p-toast>
 <p-confirmDialog [style]="{width: '450px'}"></p-confirmDialog>

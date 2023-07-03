@@ -1,50 +1,187 @@
-<nav class="sidebar locked">
-    <div class="logo_items flex">
-        <span class="nav_image">
-            <img src="./assets/layout/images/logoTrang-removebg-preview.png" alt="logo_img"/>
-        </span>
-        <span class="logo_name">ASM 1.0</span>
-        <i class="pi pi-lock" id="lock-icon" title="Unlock Sidebar" style="padding-left: 50px;font-family: 'primeicons';color:white" (click)="appMain.onMenuButtonClick($event)"></i>
-        <i class="bx bx-x" id="sidebar-close"></i>
-    </div>
-    <div class="sidebar_profile flex">
-        <a class="link flex" (click)="logOut($event)">
-            <i class="pi pi-sign-out" style="font-family: 'primeicons';"></i>
-        </a>
-        <div class="data_text" style="display: flex;flex-flow: column;">
-            <span class="name">{{username}}</span>
-            <span class="email">{{email}}</span>
+<mat-toolbar class="mat-elevation-z8">
+    <div class="layout-topbar">
+        <div class="layout-topbar-left" style="width: 100%">
+            <button
+                mat-icon-button
+                *ngIf="sidenav.mode === 'over'"
+                (click)="sidenav.toggle()">
+                <mat-icon *ngIf="!sidenav.opened"> menu</mat-icon>
+                <mat-icon *ngIf="sidenav.opened"> close</mat-icon>
+            </button>
+            <a *ngIf="sidenav.opened" class="layout-topbar-logo" routerLink="/Home/NguoiDung/TrangChu">
+                <img id="app-logo" src="../../../assets/layout/images/wwhiteBG.png"
+                     alt="ultima-layout"
+                     style="height: 95%; width: 95%">
+            </a>
+            <a class="layout-topbar-mobile-button" (click)="appMain.onTopbarMobileButtonClick($event)"
+               pRipple>
+                <i class="pi pi-ellipsis-v fs-large"></i>
+            </a>
+            <!--            <div class="topbaricon" *ngIf="sidenav.opened">-->
+            <!--                <a class="layout-topbar-action rounded-circle"-->
+            <!--                   (click)="appMain.onTopbarItemClick($event, 'notifications')" pRipple>-->
+            <!--                        <span class="p-overlay-badge">-->
+            <!--                            <p-button type="button" styleClass="p-button p-button-rounded mr-2"-->
+            <!--                                      icon="pi pi-bell"></p-button>-->
+            <!--                        </span>-->
+            <!--                </a>-->
+            <!--                <p-button type="button" styleClass="p-button p-button-rounded mr-2"-->
+            <!--                          icon="pi pi-user"-->
+            <!--                ></p-button>-->
+            <!--                <p-button type="button" styleClass="p-button p-button-rounded mr-2"-->
+            <!--                          icon="pi pi-sign-out" (click)="logOut($event)"-->
+            <!--                ></p-button>-->
+            <!--            </div>-->
         </div>
-    </div>
-    <div class="menu_container">
-        <div class="menu_items">
-            <ul class="menu_item">
-                <div class="menu_title flex">
-                    <span class="title">Thông tin chung</span>
-                    <span class="line"></span>
-                </div>
-                <li class="item">
-                    <a class="link flex" routerLink="QTriCuDan/CuDan" >
-                        <i class="pi pi-user" style="font-family: 'primeicons';"></i>
-                        <span>Thông tin cá nhân</span>
-                    </a>
-                </li>
-                <li class="item">
-                    <a href="#" class="link flex" routerLink="QTriCuDan/HoGDinh">
-                        <i class="pi pi-bell" style="font-family: 'primeicons';"></i>
-                        <span>Thông báo</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-<!-- Navbar -->
-<nav class="navbar flex">
-    <i class="bx bx-menu" id="sidebar-open"></i>
-    <input type="text" placeholder="Search..." class="search_box"/>
-    <span class="nav_image">
-        <i class="pi pi-search" style="font-size: 2rem;font-family: 'primeicons';"></i>
-      </span>
-</nav>
+        <div class="layout-topbar-right" style="justify-content: flex-end;"
+             [ngClass]="{'layout-topbar-mobile-active': appMain.mobileTopbarActive}">
+            <div class="layout-topbar-actions-right">
+                <ul class="layout-topbar-items">
+                    <li class="layout-topbar-item notifications">
+                        <a class="layout-topbar-action rounded-circle"
+                           (click)="appMain.onTopbarItemClick($event, 'notifications')" pRipple>
+                        <span class="p-overlay-badge">
+                            <p-button type="button" styleClass="p-button p-button-rounded mr-2"
+                                      icon="pi pi-bell"></p-button>
+                            <span class="p-badge p-badge-warning" style="top: 10px;right: 11px;">{{numNotifi}}</span>
+                        </span>
+                        </a>
 
+                        <ul class="layout-topbar-action-panel shadow-6"
+                            style="background-color: white !important;color: black;border-radius: 10px;"
+                            [@topbarActionPanelAnimation]="'visible'"
+                            *ngIf="appMain.activeTopbarItem === 'notifications'">
+                            <li class="mb-3">
+                                <span class="px-3 fs-small"><b>Thông báo</b></span>
+                            </li>
+                            <li class="layout-topbar-action-item" *ngFor="let noti of lstNotifi">
+                                <div *ngIf="noti.isRead" (click)="updateChangeNotifi(noti)"
+                                     class="flex flex-row align-items-center"
+                                     style="border-radius: 10px;padding: 0 13px 0 13px;">
+                                    <img src="../../../assets/demo/images/avatar/avatar-1.png"/>
+                                    <div class="flex flex-column"
+                                         [ngClass]="{'ml-3': !app.isRTL, 'mr-3': app.isRTL}"
+                                         style="flex-grow: 1;">
+                                        <div
+                                            class="flex align-items-center justify-content-between mb-1">
+                                            <span class="fs-small font-bold">{{noti.title}}</span>
+                                            <small
+                                                style="font-size: 12px;">{{noti.createdDate| date: 'dd/MM/yyyy'}}</small>
+                                        </div>
+                                        <span class="fs-small">{{noti.messages}}</span>
+                                    </div>
+                                </div>
+                                <div *ngIf="!noti.isRead" (click)="updateChangeNotifi(noti)"
+                                     class="flex flex-row align-items-center"
+                                     style="background-color: rgba(1, 74, 110, 0.5);border-radius: 10px;padding: 0 13px 0 13px;">
+                                    <img src="../../../assets/demo/images/avatar/avatar-1.png"/>
+                                    <div class="flex flex-column"
+                                         [ngClass]="{'ml-3': !app.isRTL, 'mr-3': app.isRTL}"
+                                         style="flex-grow: 1;">
+                                        <div
+                                            class="flex align-items-center justify-content-between mb-1">
+                                            <span class="fs-small font-bold">{{noti.title}}</span>
+                                            <small
+                                                style="font-size: 12px;">{{noti.createdDate| date: 'dd/MM/yyyy'}}</small>
+                                        </div>
+                                        <span class="fs-small">{{noti.messages}}</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="layout-topbar-item">
+                        <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
+                           (click)="appMain.onTopbarItemClick($event, 'profile')" pRipple>
+                            <p-button type="button" styleClass="p-button p-button-rounded mr-2"
+                                      icon="pi pi-user"></p-button>
+                        </a>
+                        <div>
+                            <ul class="layout-topbar-action-panel shadow-6"
+                                style="background-color: white !important;border-radius: 20px"
+                                [@topbarActionPanelAnimation]="'visible'"
+                                *ngIf="appMain.activeTopbarItem === 'profile'">
+                                <li class="layout-topbar-action-item">
+                                    <a class="flex flex-row align-items-center" pRipple>
+                                        <i class="pi pi-cog"
+                                           [ngClass]="{'mr-2': !app.isRTL, 'ml-2': app.isRTL}"></i>
+                                        <span>Thông tin</span>
+                                    </a>
+                                </li>
+                                <li class="layout-topbar-action-item">
+                                    <a class="flex flex-row align-items-center" pRipple>
+                                        <i class="pi pi-file-o"
+                                           [ngClass]="{'mr-2': !app.isRTL, 'ml-2': app.isRTL}"></i>
+                                        <span>Lịch sử</span>
+                                    </a>
+                                </li>
+                                <li class="layout-topbar-action-item">
+                                    <a class="flex flex-row align-items-center" pRipple>
+                                        <i class="pi pi-compass"
+                                           [ngClass]="{'mr-2': !app.isRTL, 'ml-2': app.isRTL}"></i>
+                                        <span>Hỗ trợ</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <li class="layout-topbar-item">
+                        <a class="layout-topbar-action flex flex-row justify-content-center align-items-center px-2 rounded-circle"
+                           pRipple
+                           (click)="logOut($event)">
+                            <p-button type="button" styleClass="p-button p-button-rounded mr-2"
+                                      icon="pi pi-sign-out"></p-button>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav #sidenav="matSidenav" class="mat-elevation-z8">
+        <img
+            class="avatar mat-elevation-z8"
+            src="https://source.unsplash.com/c_GmwfHBDzk/200x200"
+        />
+        <h4 class="name">{{fullName}}</h4>
+        <p class="designation">Căn hộ số: 25 Tòa A</p>
+
+        <mat-divider></mat-divider>
+        <div style="display: flex;flex-direction: column;justify-content: space-between; height: 50%;">
+            <button mat-button class="menu-button" routerLink="/Home/NguoiDung/TrangChu">
+                <mat-icon>home</mat-icon>
+                <span>Trang chủ</span>
+            </button>
+            <button mat-button class="menu-button" routerLink="/Home/NguoiDung/YeuCau">
+                <mat-icon>speaker_notes</mat-icon>
+                <span>Yêu cầu</span>
+            </button>
+            <button mat-button class="menu-button" routerLink="/Home/NguoiDung/ThanhToan">
+                <mat-icon>payment</mat-icon>
+                <span>Thanh toán</span>
+            </button>
+            <button mat-button class="menu-button" routerLink="/about">
+                <mat-icon>settings</mat-icon>
+                <span>Dịch vụ</span>
+            </button>
+            <button mat-button class="menu-button" routerLink="/about">
+                <mat-icon>contact_phone</mat-icon>
+                <span>Liên hệ</span>
+            </button>
+        </div>
+        <mat-divider></mat-divider>
+        <button mat-button class="menu-button" routerLink="/help">
+            <mat-icon>help</mat-icon>
+            <span>Help</span>
+        </button>
+
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <div class="content mat-elevation-z8">
+            <router-outlet></router-outlet>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

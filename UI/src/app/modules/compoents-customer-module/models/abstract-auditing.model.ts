@@ -4,4 +4,6 @@ export class AbstractAuditing {
     createdDate: any;
     lastModifiedBy: string;
     lastModifiedDate: any;
+    updatedBy: string;
+    updatedDate: any;
 }
