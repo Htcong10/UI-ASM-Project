@@ -62,8 +62,9 @@ export class DanhMucThongBaoComponent extends iComponentBase implements OnInit {
 
     async loadAllResident() {
         try {
-            let url = 'https://localhost:44395/api/Resident/GetAllResident';
-            let response = await this.iServiceBase.postDataAsyncTest(url, null);
+            /*let url = 'https://localhost:7289/api/Resident/GetAllResident';
+            let response = await this.iServiceBase.postDataAsyncTest(url, null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.GET_ALL_RESIDENT,null);
             if (response && response.state) {
                 this.lstAppResident = response.data;
             }
@@ -75,8 +76,9 @@ export class DanhMucThongBaoComponent extends iComponentBase implements OnInit {
     async loadAllHouseHold() {
         try {
             this.lstHouseHold = [];
-            let url = 'https://localhost:44395/api/HouseHold/GetAllHouse';
-            let response = await this.iServiceBase.postDataAsyncTest(url, null);
+           /* let url = 'https://localhost:7289/api/HouseHold/GetAllHouse';
+            let response = await this.iServiceBase.postDataAsyncTest(url, null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_HO_GDINH.GET_ALL_HOUSEH,null);
             if (response && response.state) {
                 response.data.forEach(e => {
                     this.lstHouseHold.push(e);
@@ -89,9 +91,9 @@ export class DanhMucThongBaoComponent extends iComponentBase implements OnInit {
 
     async loadAllEmployee() {
         try {
-            let url = 'https://localhost:44317/api/Employee/GetAllEmployee';
-            let response = await this.iServiceBase.postDataAsyncTest(url, null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_NHAN_VIEN.GET_ALL_EMPLOYEE,null);
+            /*let url = 'https://localhost:7052/api/Employee/GetAllEmployee';
+            let response = await this.iServiceBase.postDataAsyncTest(url, null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_NHAN_VIEN.GET_ALL_EMPLOYEE,null);
             if (response && response.state) {
                 this.lstAppEmployee = response.data;
             }
@@ -141,7 +143,7 @@ export class DanhMucThongBaoComponent extends iComponentBase implements OnInit {
     }
 
     async onSearchNotifi(notifi: AppNotificationModel) {
-        let url = 'https://localhost:44310/api/Notification/GetMultiNotifications';
+        //let url = 'https://localhost:7032/api/Notification/GetMultiNotifications';
         let recvierId;
         if (this.type != -1 && !notifi) {
             if (!this.selectedReciver || this.selectedReciver.length <= 0) {
@@ -171,7 +173,7 @@ export class DanhMucThongBaoComponent extends iComponentBase implements OnInit {
                 type: this.type,
                 listReciverId: recvierId
             };
-            let response = await this.iServiceBase.postDataAsyncTest(url, param);
+            let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA,API.API_THONG_BAO.GET_MULTI_NOTIFICATION, param);
             if (response && response.state) {
                 this.lstAppNoti = response.data;
             }
@@ -188,10 +190,12 @@ export class DanhMucThongBaoComponent extends iComponentBase implements OnInit {
                 if(e.notificationType == -1)
                     e.nguoiNhan = 'Tất cả';
                 else {
-                    let reciverList = e.notificationType == 0 ? this.lstAppEmployee : (e.notificationType == 1 ? this.lstHouseHold : this.lstAppEmployee);
+                    let reciverList = e.notificationType == 0 ? this.lstAppEmployee : (e.notificationType == 1 ? this.lstHouseHold : this.lstAppResident);
                     e.nguoiNhan = this.getReceiversByType(reciverList,e.notificationType,lstId);
+                    e.label = e.notificationType == 0 ? "employeeName" : (e.notificationType == 1 ? "householdName" : "fullName");
                 }
                 e.doiTuong = this.lstType.filter(c => c.value == e.notificationType)[0].label;
+
             })
         }
     }
@@ -214,8 +218,8 @@ export class DanhMucThongBaoComponent extends iComponentBase implements OnInit {
     }
 
     async createNotifi(notifi: AppNotificationModel) {
-        let url = 'https://localhost:44310/api/Notification/AddNotification';
-        let response = await this.iServiceBase.postDataAsyncTest(url, notifi);
+        //let url = 'https://localhost:7032/api/Notification/AddNotification';
+        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA,API.API_THONG_BAO.ADD_NOTIFICATION, notifi);
         if (response && response.state) {
             this.showMessage(mType.success, 'Thông báo', 'Thêm cư dân thành công', 'notify');
             this.onSearchNotifi(notifi);
@@ -275,9 +279,9 @@ export class DanhMucThongBaoComponent extends iComponentBase implements OnInit {
     }
 
     async updateNotifi(model: AppNotificationModel) {
-        let url = 'https://localhost:44310/api/Notification/AddNotification';
-        let response = await this.iServiceBase.postDataAsyncTest(url, model);
-        //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.UPDATE_RESIDENT, model);
+/*        let url = 'https://localhost:7032/api/Notification/AddNotification';
+        let response = await this.iServiceBase.postDataAsyncTest(url, model);*/
+        const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA, API.API_THONG_BAO.UPDATE_NOTIFICATION, model);
         if (response && response.state) {
             this.showMessage(mType.success, 'Thông báo', 'Chỉnh sửa Cư dân thành công', 'notify');
             this.onSearchNotifi(model);
@@ -301,7 +305,7 @@ export class DanhMucThongBaoComponent extends iComponentBase implements OnInit {
 
     async deleteNotifi(model: AppNotificationModel) {
         const param = model.notificationId;
-        const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.DELETE_RESIDENT, param);
+        const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA, API.API_THONG_BAO.DELETE_NOTIFICATION, param);
         if (response && response.state) {
             this.showMessage(mType.success, 'Thông báo', 'Xoá cư dân thành công', 'notify');
             this.loadAllResident();

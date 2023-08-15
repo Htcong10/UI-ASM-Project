@@ -1,0 +1,149 @@
+<div class="grid dashboard" style="    height: 75vh;
+    justify-content: space-around;">
+    <div class="col-12 lg:col-4 resdient-detail">
+        <div class="card-fix height-100 flex flex-column">
+            <h3 style="text-align: center">{{residentModel.fullName}}</h3>
+            <ul class="widget-list">
+                <li class="mb-3">
+                    <div class="flex justify-content-between mb-2">
+                        <span>Số điện thoại: </span>
+                        <small class="muted-text">{{residentModel.phoneNumber}}</small>
+                    </div>
+                </li>
+                <li class="mb-3">
+                    <div class="flex justify-content-between mb-2">
+                        <span>Email: </span>
+                        <small class="muted-text">{{residentModel.email}}</small>
+                    </div>
+                </li>
+                <li class="mb-3">
+                    <div class="flex justify-content-between mb-2">
+                        <span>Địa chỉ: </span>
+                        <small class="muted-text">{{residentModel.address}}</small>
+                    </div>
+                </li>
+                <li class="mb-3">
+                    <div class="flex justify-content-between mb-2">
+                        <span>Hộ gia đình: </span>
+                        <small class="muted-text">{{houseModel.householdName}}</small>
+                    </div>
+                </li>
+                <li class="mb-3">
+                    <div class="flex justify-content-between mb-2">
+                        <span>Ngày sinh: </span>
+                        <small class="muted-text">{{residentModel.birthday| date: 'dd/MM/yyyy'}}</small>
+                    </div>
+                </li>
+            </ul>
+            <div class="flex justify-content-center">
+                <button pButton type="button" label="Chỉnh sửa thông tin" icon="pi pi-pencil"
+                        style="width: 50%;" (click)="changeInfo()"
+                ></button>
+            </div>
+            <div class="flex justify-content-around align-self-stretch px-3 mt-6 mb-3">
+                <div class="flex flex-column align-items-center">
+                    <span>Yêu cầu</span>
+                    <span class="fs-large font-bold indigo-color mt-2">3</span>
+                </div>
+                <div class="flex flex-column align-items-center">
+                    <span>Hóa đơn</span>
+                    <span class="fs-large font-bold indigo-color mt-2">4</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 lg:col-4 account-detail">
+        <div class="card-fix height-100 flex flex-column">
+            <h3 style="text-align: center">Thông tin tài khoản</h3>
+            <ul class="widget-list">
+                <li class="mb-3">
+                    <div class="flex justify-content-between mb-2">
+                        <span>Tên đăng nhập: </span>
+                        <small class="muted-text">{{account.userName}}</small>
+                    </div>
+                </li>
+                <li class="mb-3">
+                    <div class="flex justify-content-between mb-2">
+                        <span>Loại tài khoản: </span>
+                        <small class="muted-text">{{account.userType == '1' ? "Người dùng" : "Nhân viên"}}</small>
+                    </div>
+                </li>
+                <li class="mb-3">
+                    <div class="flex justify-content-between mb-2">
+                        <span>Nhóm quyền: </span>
+                        <small class="muted-text">{{role.roleName}}</small>
+                    </div>
+                </li>
+                <li class="mb-3">
+                    <div class="flex justify-content-between mb-2">
+                        <span>Cập nhật lần cuối: </span>
+                        <small class="muted-text">{{account.lastModifiedDate| date: 'dd/MM/yyyy'}}</small>
+                    </div>
+                </li>
+            </ul>
+            <div class="flex justify-content-center">
+                <button pButton type="button" label="Đổi mật khẩu" icon="pi pi-pencil" (click)="changePassword()"
+                        style="width: 50%;"
+                ></button>
+            </div>
+        </div>
+    </div>
+</div>
+<p-dialog [header]="headerDialog" [(visible)]="accountDialog"
+          [breakpoints]="{'960px': '75vw'}"
+          [style]="{width: '30vw' }"
+          [modal]="true" styleClass="p-fluid"
+          [draggable]="false" [resizable]="false" [maximizable]="true">
+    <ng-template pTemplate="content">
+        <div class="grid p-fluid">
+            <div class="col-12 md:col-12">
+                <div class="card">
+                    <p-divider align="left">
+                        <div class="p-d-inline-flex p-ai-center">
+                            <b>Thay đổi mật khẩu</b>
+                        </div>
+                    </p-divider>
+                    <!--                    <div class="field">
+                                            <span class="p-float-label">
+                                            <p-password id="oldpassword" [(ngModel)]="oldPassword"
+                                                        [toggleMask]="true"></p-password>
+                                            <label for="password">Mật khẩu cũ*</label>
+                                            </span>
+                                        </div>-->
+                    <div class="field">
+                        <span class="p-float-label">
+                        <p-password id="password" [(ngModel)]="newPassword"
+                                    [toggleMask]="true"></p-password>
+                        <label for="password">Mật khẩu*</label>
+                        </span>
+                    </div>
+                    <div class="field">
+                        <span class="p-float-label">
+                        <p-password id="confirmpassword" [(ngModel)]="account.confirmPassword"
+                                    [toggleMask]="true"></p-password>
+                        <label for="confirmpassword">Xác nhận mật khẩu*</label>
+                        </span>
+                    </div>
+                    <p-divider align="left">
+                        <div class="p-d-inline-flex p-ai-center">
+                        </div>
+                    </p-divider>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="grid" style="text-align: center ; justify-content: center;">
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Lưu" icon="pi pi-save"
+                        (click)="onSaveUser()"
+                        style="width: 100%;"></button>
+            </div>
+            <div class="col-2" style="text-align: center; width: 8rem">
+                <button pButton type="button" label="Hủy bỏ" icon="pi pi-times"
+                        (click)="onCancelUser()" class="p-button-danger"
+                        style="width: 100%;"></button>
+            </div>
+        </div>
+    </ng-template>
+</p-dialog>

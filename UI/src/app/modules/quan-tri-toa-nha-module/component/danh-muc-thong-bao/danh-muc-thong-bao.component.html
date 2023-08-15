@@ -150,9 +150,9 @@
                         </td>
                         <td>
                             <p-dropdown [options]="notifi.nguoiNhan"
+                                        [optionLabel]="notifi.label"
                                         [showClear]="true"
-                                        [autoDisplayFirst]="false"
-                            ></p-dropdown>
+                                        [autoDisplayFirst]="true"></p-dropdown>
                         </td>
                         <td style="text-align: center;">
                             <button *ngIf="notifi.isRead" pButton pRipple type="button"

@@ -102,7 +102,7 @@
                                 [@topbarActionPanelAnimation]="'visible'"
                                 *ngIf="appMain.activeTopbarItem === 'profile'">
                                 <li class="layout-topbar-action-item">
-                                    <a class="flex flex-row align-items-center" pRipple>
+                                    <a class="flex flex-row align-items-center" pRipple routerLink="/Home/NguoiDung/ThongTin">
                                         <i class="pi pi-cog"
                                            [ngClass]="{'mr-2': !app.isRTL, 'ml-2': app.isRTL}"></i>
                                         <span>Thông tin</span>
@@ -150,7 +150,7 @@
         <p class="designation">Căn hộ số: 25 Tòa A</p>
 
         <mat-divider></mat-divider>
-        <div style="display: flex;flex-direction: column;justify-content: space-between; height: 50%;">
+        <div style="display: flex;flex-direction: column;justify-content: space-between; height: 40vh;">
             <button mat-button class="menu-button" routerLink="/Home/NguoiDung/TrangChu">
                 <mat-icon>home</mat-icon>
                 <span>Trang chủ</span>

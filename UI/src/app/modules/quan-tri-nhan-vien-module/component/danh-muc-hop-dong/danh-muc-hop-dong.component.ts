@@ -48,9 +48,9 @@ export class DanhMucHopDongComponent extends iComponentBase implements OnInit {
     async loadAllHDong() {
         this.loading = true;
         try {
-            let url = "https://localhost:44317/api/LaborContract/GetAllLaborContract";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response  = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA, API.API_HOP_DONG_CDAN.GET_ALL_CONTRACT,null);
+            /*let url = "https://localhost:7052/api/LaborContract/GetAllLaborContract";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response  = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_HOP_DONG_NVIEN.GET_ALL_LABOR_CONTRACT,null);
             if (response && response.state) {
                 this.lstAppHDong = response.data;
             }
@@ -77,9 +77,9 @@ export class DanhMucHopDongComponent extends iComponentBase implements OnInit {
     async loadAllEmployee() {
         this.loading = true;
         try {
-            let url = "https://localhost:44317/api/Employee/GetAllEmployee";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.GET_ALL_RESIDENT,null);;
+            /*let url = "https://localhost:7052/api/Employee/GetAllEmployee";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_NHAN_VIEN.GET_ALL_EMPLOYEE,null);;
             if (response && response.state) {
                 this.lstAppEmployee = response.data;
             }
@@ -92,9 +92,9 @@ export class DanhMucHopDongComponent extends iComponentBase implements OnInit {
     async loadAllDepartment() : Promise<any>{
         this.loading = true;
         try {
-            let url = "https://localhost:44317/api/Department/GetAllDepartment";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA, API.API_HOP_CAN_HO.GET_ALL_APARTMENT,null);
+            /*let url = "https://localhost:7052/api/Department/GetAllDepartment";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA, API.API_HOP_CAN_HO.GET_ALL_APARTMENT,null);
             if (response && response.state) {
                 this.lstDepartment = response.data;
             }
@@ -137,18 +137,18 @@ export class DanhMucHopDongComponent extends iComponentBase implements OnInit {
         this.loading = true;
         switch (type) {
             case 1: // insert
-                url = "https://localhost:44317/api/LaborContract/AddLaborContract";
+                url = API.API_HOP_DONG_NVIEN.ADD_LABOR_CONTRACT
                 message = 'Thêm hợp đồng nhân viên mới';
                 break;
             case 2: // update
-                url = "https://localhost:44317/api/LaborContract/UpdateLaborContractById";
+                url = API.API_HOP_DONG_NVIEN.UPDATE_LABOR_CONTRACT
                 message = 'Chỉnh sửa hợp đồng nhân viên';
                 break;
             default:
                 console.error('tác vụ không có');
                 break;
         }
-        response = await this.iServiceBase.postDataAsyncTest(url, HdongModel);
+        response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN,url, HdongModel);
         if (response && response.state) {
             this.showMessage(mType.success, 'Thông báo', message + ' thành công', 'notify');
             this.onHideDialog();
@@ -204,12 +204,12 @@ export class DanhMucHopDongComponent extends iComponentBase implements OnInit {
         switch (type) {
             case 1: // delete single
                 params = this.HDongNvien.laborContractId;
-                url = "https://localhost:44317/api/LaborContract/DeleteLaborContractById";
+                url = API.API_HOP_DONG_NVIEN.DELETE_LABOR_CONTRACT;
                 message = 'Xoá hợp đồng nhân viên';
                 break;
             case 2: // delete list
                 params = this.selectedHDong.map(p => p.laborContractId);
-                url = API.API_HO_GDINH.DELETE_HOUSEH;
+                url = API.API_HOP_DONG_NVIEN.DELETE_LABOR_CONTRACT;
                 message = 'Xoá danh sách hợp đồng nhân viên';
                 break;
             default:
@@ -217,7 +217,7 @@ export class DanhMucHopDongComponent extends iComponentBase implements OnInit {
                 break;
         }
 
-        const response = await this.iServiceBase.postDataAsyncTest( url, params);
+        const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, url, params);
         if (response && response.state) {
             this.showMessage(mType.success, 'Thông báo', message + ' thành công', 'notify');
             this.loadAllHDong();

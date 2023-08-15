@@ -10,7 +10,7 @@ import {ShareData} from '../../../compoents-customer-module/shared-data-services
 import {FileUpload} from 'primeng/fileupload';
 import {mType} from '../../../compoents-customer-module/functions/iComponentBase.component';
 import {saveAs} from 'file-saver';
-import {AppApartmentModel} from '../../../quan-tri-toa-nha-module/model/app-apartment.model';
+import * as API from '../../../../services/apiURL';
 @Component({
   selector: 'app-yeu-cau',
   templateUrl: './yeu-cau.component.html',
@@ -84,14 +84,14 @@ export class YeuCauComponent implements OnInit {
     }
     async loadAllRequire() {
         try {
-            let url = 'https://localhost:44395/api/ResidentRequire/GetListByResidentId';
+            //let url = 'https://localhost:7289/api/ResidentRequire/GetListByResidentId';
             let param ={
                 fromDate : null,
                 toDate : null,
                 status: null,
                 residentId : JSON.parse(sessionStorage.getItem('USER_CURRENT')).accountId
             }
-            let response = await this.iServiceBase.postDataAsyncTest(url, param);
+            let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN,API.API_CU_DAN.GET_REQUIRE_BY_RESIDENT, param);
             if (response && response.state) {
                 this.lstAppRequire = response.data;
             }
@@ -119,7 +119,7 @@ export class YeuCauComponent implements OnInit {
         }
     }
     async taiFile(file) {
-        let url = 'https://localhost:44310/api/Apartment/getBase64File';
+        let url = 'https://localhost:7032/api/Apartment/getBase64File';
         let param = {
             filePath: file
         };
@@ -138,7 +138,7 @@ export class YeuCauComponent implements OnInit {
             key:'confirm1',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                let url = 'https://localhost:44310/api/Apartment/deleteFileFromPath';
+                let url = 'https://localhost:7032/api/Apartment/deleteFileFromPath';
                 let param = {
                     filePath: file
                 };
@@ -234,11 +234,11 @@ export class YeuCauComponent implements OnInit {
     }
 
     async onShowImage(image) {
-        let url = 'https://localhost:44310/api/Apartment/getBase64File';
+        //let url = 'https://localhost:7032/api/Apartment/getBase64File';
         let param = {
             filePath: image
         };
-        let response = await this.iServiceBase.postDataAsyncTest(url, param);
+        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN,API.API_HOP_YEU_CAU_CDAN.GET_BASE64, param);
         if (response.state) {
             this.ViewFile(response.data[0].base64, response.data[0].contentType);
         }
@@ -286,8 +286,8 @@ export class YeuCauComponent implements OnInit {
                     });
                 }
                 if (this.uploadedFiles.length) {
-                    let url = 'https://localhost:44310/api/Apartment/UploadFile';
-                    let response = await this.iServiceBase.postDataAsyncTest(url, this.uploadedFiles);
+                    //let url = 'https://localhost:7032/api/Apartment/UploadFile';
+                    let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA,API.API_HOP_CAN_HO.UPLOAD_FILE, this.uploadedFiles);
                     if (response && response.state) {
                         this.showMessage(mType.success, 'Thông báo', 'Tải file lên thành công', 'notify');
                     }
@@ -329,8 +329,8 @@ export class YeuCauComponent implements OnInit {
         }
     }
     async updateModel(model: AppRequireModel) {
-        let url = 'https://localhost:44395/api/ResidentRequire/UpdateRequireById';
-        let response = await this.iServiceBase.postDataAsyncTest(url, model);
+        //let url = 'https://localhost:7289/api/ResidentRequire/UpdateRequireById';
+        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN,API.API_HOP_YEU_CAU_CDAN.UPDATE_REQUIRE, model);
         //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.UPDATE_RESIDENT, resident);
         if (response && response.state) {
             this.showMessage(mType.success, 'Thông báo', 'Chỉnh sửa yêu cầu thành công', 'notify');
@@ -341,8 +341,9 @@ export class YeuCauComponent implements OnInit {
         }
     }
     async createModel(model: AppRequireModel) {
-        let url = 'https://localhost:44395/api/ResidentRequire/AddRequire';
-        let response = await this.iServiceBase.postDataAsyncTest(url, model);
+        //let url = 'https://localhost:7289/api/ResidentRequire/AddRequire';
+        let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN,API.API_HOP_YEU_CAU_CDAN.ADD_REQUIRE, model);
+
         if (response && response.state) {
             this.showMessage(mType.success, 'Thông báo', 'Thêm yêu cầu thành công', 'notify');
             await this.loaDataShow();

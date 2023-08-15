@@ -42,8 +42,11 @@
                                class="pi pi-eye-slash"
                                style="color: black"></i>
                     </span>
-                </div>
 
+                </div>
+                <div style="display:flex; justify-content : flex-end;margin-bottom: 0.5rem;">
+                    <a [routerLink]="['/forgotpassword']" routerLinkActive="active">Quên mật khẩu</a>
+                </div>
             </div>
             <div class="mb-4 px-4" style="text-align: center">
                 <p-button class="login-button text-500 btn-label" (onClick)="onSubmit()"

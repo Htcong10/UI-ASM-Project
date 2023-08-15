@@ -52,9 +52,9 @@ export class DanhMucGoiTaiKhoan extends iComponentBase implements OnInit {
     async loadAllHDongCDan() {
         this.loading = true;
         try {
-            let url = "https://localhost:44310/api/Contract/GetAllContract";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response  = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA, API.API_HOP_DONG_CDAN.GET_ALL_CONTRACT,null);
+            /*let url = "https://localhost:7032/api/Contract/GetAllContract";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response  = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA, API.API_HOP_DONG_CDAN.GET_ALL_CONTRACT,null);
             if (response && response.state) {
                 this.lstAppHDongCDan = response.data;
             }
@@ -67,9 +67,9 @@ export class DanhMucGoiTaiKhoan extends iComponentBase implements OnInit {
     async loadAllResident() {
         this.loading = true;
         try {
-            let url = "https://localhost:44395/api/Resident/GetAllResident";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.GET_ALL_RESIDENT,null);;
+            /*let url = "https://localhost:7289/api/Resident/GetAllResident";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.GET_ALL_RESIDENT,null);;
             if (response && response.state) {
                 this.lstAppResident = response.data;
             }
@@ -82,9 +82,9 @@ export class DanhMucGoiTaiKhoan extends iComponentBase implements OnInit {
     async loadAllApartment() : Promise<any>{
         this.loading = true;
         try {
-            let url = "https://localhost:44310/api/Apartment/GetAllApartment";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA, API.API_HOP_CAN_HO.GET_ALL_APARTMENT,null);
+            /*let url = "https://localhost:7032/api/Apartment/GetAllApartment";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA, API.API_HOP_CAN_HO.GET_ALL_APARTMENT,null);
             if (response && response.state) {
                 this.lstApartment = response.data;
             }
@@ -98,9 +98,9 @@ export class DanhMucGoiTaiKhoan extends iComponentBase implements OnInit {
         this.lstHoGDinh = [];
         this.loading = true;
         try {
-            let url = "https://localhost:44395/api/HouseHold/GetAllHouse";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_HO_GDINH.GET_ALL_HOUSEH,null);
+            /*let url = "https://localhost:7289/api/HouseHold/GetAllHouse";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_HO_GDINH.GET_ALL_HOUSEH,null);
             if (response && response.state) {
                 this.lstHoGDinh = response.data
             }

@@ -31,13 +31,14 @@ export class LoginComponent extends iComponentBase implements OnInit {
     check: boolean;
     chkTT_ShowPass: boolean = false;
     maDViQLy: any;
+
     constructor(
         private router: Router,
         public http: HttpClient,
         public messageService: MessageService,
         private iServiceBase: iServiceBase,
         private shareData: ShareData,
-        private datePipe: DatePipe, ) {
+        private datePipe: DatePipe,) {
         super(messageService);
     }
 
@@ -54,19 +55,24 @@ export class LoginComponent extends iComponentBase implements OnInit {
     logout(user: AppUser) {
         localStorage.removeItem(user.username);
     }
-    checked(check: boolean){
+
+    checked(check: boolean) {
         this.check = check;
     }
 
     async ngOnInit() {
         this.isLogged().then((result: boolean) => {
             if (result) {
-                const userinfo = localStorage.getItem('USER_INFO');
+                const userinfo = JSON.parse(sessionStorage.getItem('USER_CURRENT'));
                 // Lấy SESSIONID ở local storage
                 const sessioninfo = localStorage.getItem('SESSIONID');
                 // Set lại SESSIONID ở local storage
                 sessionStorage.setItem('SESSIONID', sessioninfo);
-                this.router.navigate(['/Home']);
+                if (userinfo.userType == "1") {
+                    this.router.navigate(['/Home/NguoiDung/TrangChu']);
+                } else {
+                    this.router.navigate(['/Home']);
+                }
             } else {
                 this.router.navigate(['/login']);
             }
@@ -80,38 +86,43 @@ export class LoginComponent extends iComponentBase implements OnInit {
 
         this.loadInfoSys();
     }
+
     onEnterTKiemMaKHang(event) {
         if (event.keyCode == 13) {
             this.onSubmit();
         }
     }
+
     btnShowPass_Click() {
         this.chkTT_ShowPass = !this.chkTT_ShowPass;
     }
+
     getWidth() {
         return window.innerWidth * 0.6;
     }
+
     public loadInfoSys(): void {
-        if ((localStorage.getItem('username') != null) || (localStorage.getItem('password') !=null)){
+        if ((localStorage.getItem('username') != null) || (localStorage.getItem('password') != null)) {
             this.userName = localStorage.getItem('username');
             this.password = localStorage.getItem('password');
         }
-        if (sessionStorage.getItem('USER_NAME') != null){
+        if (sessionStorage.getItem('USER_NAME') != null) {
             this.userName = sessionStorage.getItem('USER_NAME');
         }
     }
+
     async onSubmit() {
         this.submitted = true;
         const parram = {
             userName: this.userName,
             password: this.password
         };
-        if (this.check){
+        if (this.check) {
             localStorage.setItem('username', this.userName);
             localStorage.setItem('password', this.password);
-        }else{
-            localStorage.setItem('username',"");
-            localStorage.setItem('password',"");
+        } else {
+            localStorage.setItem('username', '');
+            localStorage.setItem('password', '');
         }
         //Load thông tin người dùng'
         const response = await this.iServiceBase.getDataAsyncByPostRequest(API.PHAN_HE.USER, API.API_USER.SIGNIN, parram);
@@ -130,16 +141,16 @@ export class LoginComponent extends iComponentBase implements OnInit {
                 sessionStorage.setItem('USER_ROLES', JSON.stringify(response.appRole));
                 this.shareData.userRoles = response.appRole;
             }
-            if(response.appRole.roleKey == 'ROLE_USER')
-            {
+            if (response.appRole.roleKey == 'ROLE_USER') {
                 this.router.navigate(['/Home/NguoiDung/TrangChu']);
-            }
-            else
+            } else {
                 this.router.navigate(['/Home']);
+            }
         } else {
             this.showMessage(mType.error, 'Thông báo', 'Đăng nhập không thành công. Vui lòng kiểm tra lại', 'app-login');
         }
     }
+
     onEnter(event) {
         if (event.keyCode == 13) {
             this.onSubmit();

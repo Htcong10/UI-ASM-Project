@@ -7,18 +7,21 @@ import {ReactiveFormsModule} from '@angular/forms';
 import {RouterModule, Routes} from '@angular/router';
 import { YeuCauComponent } from './component/yeu-cau/yeu-cau.component';
 import { ThanhToanComponent } from './component/thanh-toan/thanh-toan.component';
+import { ThongTinUserComponent } from './component/thong-tin-user/thong-tin-user.component';
 
 const routes: Routes = [
     {path: 'TrangChu', component: TrangChuComponent},
     {path:'YeuCau',component: YeuCauComponent},
     {path:'ThanhToan',component: ThanhToanComponent},
+    {path:'ThongTin',component: ThongTinUserComponent},
 ]
 
 @NgModule({
   declarations: [
     TrangChuComponent,
     YeuCauComponent,
-    ThanhToanComponent
+    ThanhToanComponent,
+    ThongTinUserComponent
   ],
     imports: [
         ComponentModule,

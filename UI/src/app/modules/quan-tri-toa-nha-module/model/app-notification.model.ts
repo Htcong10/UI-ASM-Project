@@ -10,4 +10,5 @@ export class AppNotificationModel extends AbstractAuditing{
     receiverId: string;
     nguoiNhan : any;
     doiTuong : any;
+    label: any;
 }

@@ -108,7 +108,7 @@ export class QuanTriNguoiDungComponent extends iComponentBase implements OnInit 
     }
     async loadAllResident() {
         try {
-            let url = 'https://localhost:44395/api/Resident/GetAllResident';
+            let url = 'https://localhost:7289/api/Resident/GetAllResident';
             let response = await this.iServiceBase.postDataAsyncTest(url, null);
             if (response && response.state) {
                 this.lstAppResident = response.data;
@@ -120,7 +120,7 @@ export class QuanTriNguoiDungComponent extends iComponentBase implements OnInit 
 
     async loadAllEmployee() {
         try {
-            let url = 'https://localhost:44317/api/Employee/GetAllEmployee';
+            let url = 'https://localhost:7052/api/Employee/GetAllEmployee';
             let response = await this.iServiceBase.postDataAsyncTest(url, null);
             //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_NHAN_VIEN.GET_ALL_EMPLOYEE,null);
             if (response && response.state) {

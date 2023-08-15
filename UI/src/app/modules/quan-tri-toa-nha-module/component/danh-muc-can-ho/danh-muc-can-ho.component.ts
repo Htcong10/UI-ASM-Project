@@ -8,6 +8,7 @@ import {DomSanitizer, SafeUrl} from '@angular/platform-browser';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {saveAs} from 'file-saver';
 import {FileUpload} from 'primeng/fileupload';
+import * as API from '../../../../services/apiURL';
 
 @Component({
     selector: 'app-danh-muc-can-ho',
@@ -84,9 +85,9 @@ export class DanhMucCanHoComponent implements OnInit {
     async loadAllApartment() {
         this.loading = true;
         try {
-            let url = 'https://localhost:44310/api/Apartment/GetAllApartment';
-            let response = await this.iServiceBase.postDataAsyncTest(url, null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.GET_ALL_RESIDENT,null);
+            /*let url = 'https://localhost:7032/api/Apartment/GetAllApartment';
+            let response = await this.iServiceBase.postDataAsyncTest(url, null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA, API.API_HOP_CAN_HO.GET_ALL_APARTMENT,null);
             if (response && response.state) {
                 this.lstApart = response.data;
             }
@@ -146,7 +147,7 @@ export class DanhMucCanHoComponent implements OnInit {
     }
 
     async taiFile(file) {
-        let url = 'https://localhost:44310/api/Apartment/getBase64File';
+        let url = 'https://localhost:7032/api/Apartment/getBase64File';
         let param = {
             filePath: file
         };
@@ -165,7 +166,7 @@ export class DanhMucCanHoComponent implements OnInit {
             key:'confirm1',
             icon: 'pi pi-exclamation-triangle',
             accept: () => {
-                let url = 'https://localhost:44310/api/Apartment/deleteFileFromPath';
+                let url = 'https://localhost:7032/api/Apartment/deleteFileFromPath';
                 let param = {
                     filePath: file
                 };
@@ -236,7 +237,7 @@ export class DanhMucCanHoComponent implements OnInit {
     }
 
     async onShowImage(image) {
-        let url = 'https://localhost:44310/api/Apartment/getBase64File';
+        let url = 'https://localhost:7032/api/Apartment/getBase64File';
         let param = {
             filePath: image
         };
@@ -270,8 +271,9 @@ export class DanhMucCanHoComponent implements OnInit {
                     });
                 }
                 if (this.uploadedFiles.length) {
-                    let url = 'https://localhost:44310/api/Apartment/UploadFile';
-                    let response = await this.iServiceBase.postDataAsyncTest(url, this.uploadedFiles);
+                    //let url = 'https://localhost:7032/api/Apartment/UploadFile';
+                    let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA,API.API_HOP_CAN_HO.UPLOAD_FILE, this.uploadedFiles);
+
                     if (response && response.state) {
                         this.showMessage(mType.success, 'Thông báo', 'Tải file lên thành công', 'notify');
                     }
@@ -298,7 +300,7 @@ export class DanhMucCanHoComponent implements OnInit {
     }
 
     async createModel(model: AppApartmentModel) {
-        let url = 'https://localhost:44310/api/Apartment/AddApartment';
+        let url = 'https://localhost:7032/api/Apartment/AddApartment';
         let response = await this.iServiceBase.postDataAsyncTest(url, model);
         if (response && response.state) {
             this.showMessage(mType.success, 'Thông báo', 'Thêm cư dân thành công', 'notify');
@@ -310,7 +312,7 @@ export class DanhMucCanHoComponent implements OnInit {
     }
 
     async updateModel(model: AppApartmentModel) {
-        let url = 'https://localhost:44310/api/Apartment/UpdateApartmentById';
+        let url = 'https://localhost:7032/api/Apartment/UpdateApartmentById';
         let response = await this.iServiceBase.postDataAsyncTest(url, model);
         //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.UPDATE_RESIDENT, resident);
         if (response && response.state) {
@@ -336,7 +338,7 @@ export class DanhMucCanHoComponent implements OnInit {
 
     async deleteModel(model: AppApartmentModel) {
         const param = model.apartmentId;
-        let url = 'https://localhost:44310/api/Apartment/DeleteApartmentById';
+        let url = 'https://localhost:7032/api/Apartment/DeleteApartmentById';
         let response = await this.iServiceBase.postDataAsyncTest(url, param);
         if (response && response.state) {
             this.showMessage(mType.success, 'Thông báo', 'Xoá cư dân thành công', 'notify');

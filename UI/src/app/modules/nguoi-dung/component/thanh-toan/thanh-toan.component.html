@@ -1,6 +1,6 @@
-<div class="grid dashboard justify-content-center">
+<div class="grid dashboard justify-content-center" style="    height: 80vh;">
     <div class="col-12 lg:col-8">
-        <div class="card-fix height-50">
+        <div class="card-fix height-100">
             <div class="card-header" style="text-align: center;color : white;">
                 <h2>{{header}}</h2>
             </div>
@@ -13,7 +13,7 @@
                         <img alt="logo" src="assets/demo/thanhtoan.jpg" style="width: 73px;height: 38px;"/>
                     </p-button>
                 </div>
-                <div class="mb-2 mr-2" style="flex : 3;overflow-y: scroll; max-height: 400px;">
+                <div class="mb-2 mr-2" style="flex : 3;overflow-y: scroll; max-height: 60vh; min-height: 60vh;" id="product-list">
                     <div class="col-12" *ngFor="let apart of products">
                         <div class="item flex flex-column md:flex-row align-items-center">
                             <div class="mb-2 mr-2 apart-list-detail">
@@ -27,72 +27,6 @@
                             </div>
                         </div>
                     </div>
-                    <!--<ul class="widget-list" style="margin-right: 20px;">
-                        <li class="flex py-3">
-                            <div class="flex align-items-center">
-                                <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
-                                    <h3>Thông báo phí tháng 6/2023</h3>
-                                    <small style="color: red;">50,450,000 VNĐ</small>
-                                </div>
-                            </div>
-                            <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
-                                    [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
-                            <button pButton pRipple type="button" icon="pi pi-arrow-down"
-                                    class="p-button-outlined"></button>
-                        </li>
-                        <li class="flex py-3">
-                            <div class="flex align-items-center">
-
-                                <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
-                                    <div>Elite Report 2020-Q4</div>
-                                    <small class="muted-text">56.00MB</small>
-                                </div>
-                            </div>
-                            <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
-                                    [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
-                            <button pButton pRipple type="button" icon="pi pi-arrow-down"
-                                    class="p-button-outlined"></button>
-                        </li>
-                        <li class="flex py-3">
-                            <div class="flex align-items-center">
-
-                                <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
-                                    <div>Ultima Marketing Assets</div>
-                                    <small class="muted-text">1.29GB</small>
-                                </div>
-                            </div>
-                            <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
-                                    [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
-                            <button pButton pRipple type="button" icon="pi pi-arrow-down"
-                                    class="p-button-outlined"></button>
-                        </li>
-                        <li class="flex py-3">
-                            <div class="flex align-items-center">
-
-                                <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
-                                    <div>Ultima Remastered Docs</div>
-                                    <small class="muted-text">26.54KB</small>
-                                </div>
-                            </div>
-                            <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
-                                    [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
-                            <button pButton pRipple type="button" icon="pi pi-arrow-down"
-                                    class="p-button-outlined"></button>
-                        </li>
-                        <li class="flex py-3">
-                            <div class="flex align-items-center">
-
-                                <div [ngClass]="{'ml-2': !app.isRTL, 'mr-2': app.isRTL}">
-                                    <div>Keychain</div>
-                                    <small class="muted-text">320.09KB</small>
-                                </div>
-                            </div>
-                            <button pButton pRipple type="button" icon="pi pi-copy" class="p-button-outlined"
-                                    [ngClass]="{'ml-auto mr-1': !app.isRTL, 'mr-auto ml-1': app.isRTL}"></button>
-                            <button pButton pRipple type="button" icon="pi pi-arrow-down"
-                                    class="p-button-outlined"></button>
-                        </li>
-                    </ul>-->
                 </div>
             </div>
         </div>

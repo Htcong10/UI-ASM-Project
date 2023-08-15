@@ -1,5 +1,5 @@
 {
-    "APIGATEWAY": "https://localhost:44393",
+    "APIGATEWAY": "http://localhost:8088",
     "APISERVICE": "http://localhost:8039",
     "APISMSEMAIL": "http://10.1.117.239:9000",
     "IP_UI": "",

@@ -38,9 +38,9 @@ export class DanhMucHoGdinhComponent extends iComponentBase implements OnInit {
     async loadAllResident() {
         this.loading = true;
         try {
-            let url = "https://localhost:44395/api/Resident/GetAllResident";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postData(API.PHAN_HE.CUDAN, API.API_CU_DAN.GET_ALL_RESIDENT, null).toPromise();
+            /*let url = "https://localhost:7289/api/Resident/GetAllResident";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.GET_ALL_RESIDENT, null);
             if (response && response.state) {
                 this.lstAppResident = response.data;
             }
@@ -53,9 +53,9 @@ export class DanhMucHoGdinhComponent extends iComponentBase implements OnInit {
         this.lstHoGDinh = [];
         this.loading = true;
         try {
-            let url = "https://localhost:44395/api/HouseHold/GetAllHouse";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postData(API.PHAN_HE.CUDAN, API.API_HO_GDINH.GET_ALL_HOUSEH, null).toPromise();
+            /*let url = "https://localhost:7289/api/HouseHold/GetAllHouse";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postData(API.PHAN_HE.CUDAN, API.API_HO_GDINH.GET_ALL_HOUSEH, null).toPromise();
             if (response && response.state) {
                 this.lstHoGDinh = response.data
             }
@@ -151,8 +151,9 @@ export class DanhMucHoGdinhComponent extends iComponentBase implements OnInit {
                 }
             });
             hoGdinhex.push(HoGDinhModel);
-            let url = 'https://localhost:44395/api/HouseHold/UpdateHouseByListId'
-            const responseHouse = await this.iServiceBase.postDatatest(url, hoGdinhex).toPromise();
+            //let url = 'https://localhost:7289/api/HouseHold/UpdateHouseByListId'
+            const responseHouse = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_HO_GDINH.UPDATE_LIST_HOUSEH, hoGdinhex);
+            //const responseHouse = await this.iServiceBase.postDataAsync(url, hoGdinhex).toPromise();
             return responseHouse;
         }
         catch (e) {

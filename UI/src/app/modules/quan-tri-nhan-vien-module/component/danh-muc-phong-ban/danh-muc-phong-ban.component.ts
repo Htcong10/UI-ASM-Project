@@ -44,9 +44,9 @@ export class DanhMucPhongBanComponent extends iComponentBase implements OnInit {
     async loadAllEmployee() {
         this.loading = true;
         try {
-            let url = "https://localhost:44317/api/Employee/GetAllEmployee";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_NHAN_VIEN.GET_ALL_EMPLOYEE, null);
+           /* let url = "https://localhost:7052/api/Employee/GetAllEmployee";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_NHAN_VIEN.GET_ALL_EMPLOYEE, null);
             if (response && response.state) {
                 this.lstAppEmployee = response.data;
             }
@@ -59,9 +59,9 @@ export class DanhMucPhongBanComponent extends iComponentBase implements OnInit {
         this.lstDepartment = [];
         this.loading = true;
         try {
-            let url = "https://localhost:44317/api/Department/GetAllDepartment";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_PHONG_BAN.GET_ALL_DEPARTMENT, null);
+            /*let url = "https://localhost:7052/api/Department/GetAllDepartment";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_PHONG_BAN.GET_ALL_DEPARTMENT, null);
             if (response && response.state) {
                 this.lstDepartment = response.data
             }
@@ -121,14 +121,13 @@ export class DanhMucPhongBanComponent extends iComponentBase implements OnInit {
         let response;
         switch (type) {
             case 1: // insert
-                url = "https://localhost:44317/api/Department/AddDepartment";
+                url = API.API_PHONG_BAN.ADD_DEPARTMENT
                 message = 'Thêm phòng ban mới';
-                response = await this.iServiceBase.postDataAsyncTest(url,DepartmentModel);
+                response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN,url,DepartmentModel);
                // response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, url, DepartmentModel);
                 break;
             case 2: // update
-                //url = API.API_PHONG_BAN.UPDATE_DEPARTMENT;
-                url = "https://localhost:44317/api/Department/UpdateDepartmentByListId";
+                url = API.API_PHONG_BAN.UPDATE_DEPARTMENT;
                 message = 'Chỉnh sửa phòng ban';
                 //response = await this.iServiceBase.postDataAsyncTest(url,DepartmentModel);
                 response = await this.updateAll(DepartmentModel);
@@ -148,14 +147,13 @@ export class DanhMucPhongBanComponent extends iComponentBase implements OnInit {
         }
     }
     async updateAll(DepartmentModel: AppDepartmentModel) {
-        //cập nhật lại cho hộ khác
         try {
             let lstmemId = DepartmentModel.memberId ? DepartmentModel.memberId.split(',') : [];
-            let hoGdinhex = this.lstDepartment.filter(c => {
+            let departex = this.lstDepartment.filter(c => {
                 const memIds = c.memberId ? c.memberId.split(',') : [];
                 return lstmemId.some(str => memIds.includes(str)) && c.departmentId != DepartmentModel.departmentId;
             });
-            hoGdinhex.forEach(e => {
+            departex.forEach(e => {
                 let numMem = e.memberId.split(',');
                 e.memberId = numMem.filter(char => !lstmemId.includes(char))
                     .join(',');
@@ -167,11 +165,11 @@ export class DanhMucPhongBanComponent extends iComponentBase implements OnInit {
                     e.managerName = this.lstAppEmployee.filter(c => e.memberId.includes(c.employeeId.toString()))[0].employeeName
                 }
             });
-            hoGdinhex.push(DepartmentModel);
-            let url = "https://localhost:44317/api/Department/UpdateDepartmentByListId";
-            const responseHouse = await this.iServiceBase.postDataAsyncTest(url,hoGdinhex);
+            departex.push(DepartmentModel);
+            //let url = "https://localhost:7052/api/Department/UpdateDepartmentByListId";
+            const responseDepart = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN,API.API_PHONG_BAN.UPDATE_LIST_DEPARTMENT,departex);
             //const responseHouse = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_PHONG_BAN.UPDATE_LIST_DEPARTMENT, hoGdinhex);
-            return responseHouse;
+            return responseDepart;
         }
         catch (e) {
             console.log(e)

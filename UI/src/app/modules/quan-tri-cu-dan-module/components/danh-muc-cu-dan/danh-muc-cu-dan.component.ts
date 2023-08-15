@@ -47,9 +47,9 @@ export class DanhMucCuDanComponent extends iComponentBase implements OnInit {
     async loadAllResident(){
         this.loading = true;
         try {
-            let url = "https://localhost:44395/api/Resident/GetAllResident";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.GET_ALL_RESIDENT,null);
+            /*let url = "https://localhost:7289/api/Resident/GetAllResident";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_CU_DAN.GET_ALL_RESIDENT,null);
             if (response && response.state){
                this.lstAppResident = response.data;
             }
@@ -62,9 +62,9 @@ export class DanhMucCuDanComponent extends iComponentBase implements OnInit {
     async loadAllHouseHold(){
         try {
             this.lstHouseHold = [];
-            let url = "https://localhost:44395/api/HouseHold/GetAllHouse";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_HO_GDINH.GET_ALL_HOUSEH,null);
+           /* let url = "https://localhost:7289/api/HouseHold/GetAllHouse";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN, API.API_HO_GDINH.GET_ALL_HOUSEH,null);
             if (response && response.state){
                response.data.forEach(e => {
                 this.lstHouseHold.push(e);

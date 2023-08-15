@@ -54,12 +54,12 @@ export class AppMenuUserComponent implements AfterViewInit, OnInit  {
                 sessionStorage.setItem('USER_CURRENT', JSON.stringify(response));
                 localStorage.setItem('USER_CURRENT', JSON.stringify(response));
                 // sessionStorage.setItem('USER_ROLES', JSON.stringify(response.appRoles));
-                let url = 'https://localhost:44395/api/Resident/GetResidentById';
+                //let url = 'https://localhost:7289/api/Resident/GetResidentById';
                 const params = response.accountId;
-                let responseUser = await this.iServiceBase.postDataAsyncTest(url, params);
+                let responseUser = await this.iServiceBase.postDataAsync(API.PHAN_HE.CUDAN,API.API_CU_DAN.GET_RESIDENT_BY_ID, params);
                 if (responseUser && responseUser.state) {
                     this.fullName = responseUser.data.fullName;
-                    sessionStorage.setItem('RESIDENT', JSON.stringify(responseUser));
+                    sessionStorage.setItem('RESIDENT', JSON.stringify(responseUser.data));
 
                 }
             }
@@ -69,13 +69,13 @@ export class AppMenuUserComponent implements AfterViewInit, OnInit  {
     }
     async onSearchNotifi() {
         try {
-            let url = 'https://localhost:44310/api/Notification/GetMultiNotifications';
+            //let url = 'https://localhost:7032/api/Notification/GetMultiNotifications';
             let type = JSON.parse(sessionStorage.getItem('USER_CURRENT')).accountId;
             let param = {
                 type: 3,
                 listReciverId: [type.toString()]
             };
-            let response = await this.iServiceBase.postDataAsyncTest(url, param);
+            let response = await this.iServiceBase.postDataAsync(API.PHAN_HE.TOANHA,API.API_THONG_BAO.GET_MULTI_NOTIFICATION, param);
             if (response && response.state) {
                 this.lstNotifi = response.data;
                 this.lstNotifi.sort((a, b) => a.isRead - b.isRead);
@@ -89,7 +89,7 @@ export class AppMenuUserComponent implements AfterViewInit, OnInit  {
         if(!noti.isRead)
         {
             noti.isRead = 1;
-            let url = 'https://localhost:44310/api/Notification/UpdateNotificationById';
+            let url = 'https://localhost:7032/api/Notification/UpdateNotificationById';
             let response = await this.iServiceBase.postDataAsyncTest(url, noti);
             if (response && response.state) {
                 this.onSearchNotifi();

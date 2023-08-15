@@ -54,9 +54,9 @@ export class DanhMucNhanVienComponent extends iComponentBase implements OnInit {
     async loadAllEmployee(){
         this.loading = true;
         try {
-            let url = "https://localhost:44317/api/Employee/GetAllEmployee";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_NHAN_VIEN.GET_ALL_EMPLOYEE,null);
+            /*let url = "https://localhost:7052/api/Employee/GetAllEmployee";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_NHAN_VIEN.GET_ALL_EMPLOYEE,null);
             if (response && response.state){
                this.lstAppEmployee = response.data;
             }
@@ -74,9 +74,9 @@ export class DanhMucNhanVienComponent extends iComponentBase implements OnInit {
     async loadAllDepartment(){
         try {
             this.lstDepartment = [];
-            let url = "https://localhost:44317/api/Department/GetAllDepartment";
-            let response = await this.iServiceBase.postDataAsyncTest(url,null);
-            //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_PHONG_BAN.GET_ALL_DEPARTMENT,null);
+            /*let url = "https://localhost:7052/api/Department/GetAllDepartment";
+            let response = await this.iServiceBase.postDataAsyncTest(url,null);*/
+            const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_PHONG_BAN.GET_ALL_DEPARTMENT,null);
             if (response && response.state){
                response.data.forEach(e => {
                 this.lstDepartment.push(e);
@@ -165,9 +165,9 @@ export class DanhMucNhanVienComponent extends iComponentBase implements OnInit {
         this.employeeModel.status = event.checked ? 1 : 0;
     }
     async updateEmployee(employee: AppEmployee){
-        let url = "https://localhost:44317/api/Employee/UpdateEmployeeById";
-        let response = await this.iServiceBase.postDataAsyncTest(url,employee);
-        //const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_NHAN_VIEN.UPDATE_EMPLOYEE, employee);
+        /*let url = "https://localhost:7052/api/Employee/UpdateEmployeeById";
+        let response = await this.iServiceBase.postDataAsyncTest(url,employee);*/
+        const response = await this.iServiceBase.postDataAsync(API.PHAN_HE.NHANVIEN, API.API_NHAN_VIEN.UPDATE_EMPLOYEE, employee);
         if (response && response.state){
             this.showMessage(mType.success, 'Thông báo', 'Chỉnh sửa Cư dân thành công', 'notify');
             this.loadAllEmployee();
@@ -285,6 +285,4 @@ export class DanhMucNhanVienComponent extends iComponentBase implements OnInit {
         this.onHideDialog();
         this.submitted = false;
     }
-
-
 }
