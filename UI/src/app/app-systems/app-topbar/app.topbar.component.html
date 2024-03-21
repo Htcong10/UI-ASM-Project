@@ -1,12 +1,11 @@
 <div class="layout-topbar shadow-4">
     <div class="layout-topbar-left">
         <a class="layout-topbar-logo" routerLink="/">
-            <img id="app-logo" src="../../../assets/layout/images/Blue.png"
+            <img id="app-logo" src=""
                  alt="ultima-layout"
-                 style="height: 95%; width: 95%">
+                 style="height: 95%; width: 1px">
         </a>
-
-        <a class="layout-menu-button shadow-6" (click)="appMain.onMenuButtonClick($event)" pRipple>
+        <a class="layout-menu-button shadow-6" style="margin-left: 18px;" (click)="appMain.onMenuButtonClick($event)" pRipple>
             <i class="pi pi-chevron-right"></i>
         </a>
 
@@ -18,9 +17,6 @@
 
     <div class="layout-topbar-right"
          [ngClass]="{'layout-topbar-mobile-active': appMain.mobileTopbarActive}">
-<!--        <div class="layout-topbar-actions-left" style="align-items: self-end;color: #0071A8;">-->
-<!--            <h4>{{label}}</h4>-->
-<!--        </div>-->
         <div class="layout-topbar-actions-left">
             <p-megaMenu [model]="model" styleClass="layout-megamenu"></p-megaMenu>
         </div>
@@ -55,7 +51,7 @@
                         </span>
                     </a>
 
-                    <ul class="layout-topbar-action-panel shadow-6" style="background-color: white !important;"
+                    <ul class="layout-topbar-action-panel shadow-6"
                         [@topbarActionPanelAnimation]="'visible'"
                         *ngIf="appMain.activeTopbarItem === 'notifications'">
                         <li class="mb-3">
@@ -125,20 +121,6 @@
                         </li>
                     </ul>
                 </li>
-<!--                <li class="layout-topbar-item">-->
-<!--                    <div class="grid grid-nogutter">-->
-<!--                        <div class="col-12" style="text-align: center">-->
-<!--                            <span>-->
-<!--                                <b>0 Đ</b>-->
-<!--                            </span>-->
-<!--                        </div>-->
-<!--                        <div class="col-12" style="text-align: center">-->
-<!--                            <span>-->
-<!--                                Số dư ví-->
-<!--                            </span>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </li>-->
                 <li class="layout-topbar-item">
                     <div class="grid grid-nogutter">
                         <div class="col-12" style="text-align: center">
@@ -160,7 +142,7 @@
                              style="width: 32px; height: 32px;">
                     </a>
 
-                    <ul class="layout-topbar-action-panel shadow-6" style="background-color: white !important;"
+                    <ul class="layout-topbar-action-panel shadow-6"
                         [@topbarActionPanelAnimation]="'visible'"
                         *ngIf="appMain.activeTopbarItem === 'profile'">
                         <li class="layout-topbar-action-item">

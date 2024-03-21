@@ -65,3 +65,45 @@ mat-divider {
     background-color: rgba(255, 255, 255, 0.5);
 }
 
+div.scroll-full-height {
+    margin-top: 10px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 160px);
+    background: none;
+    font-family: Arial, Helvetica, sans-serif;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+div.scroll-full-height-ex {
+    margin-top: 10px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 85px);
+    background: none;
+    font-family: Arial, Helvetica, sans-serif;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+div.scroll-full-height-ex-2 {
+    margin-top: 10px;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 210px);
+    background: none;
+    font-family: Arial, Helvetica, sans-serif;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+div.scroll-bcnocompo-2 {
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 260px);
+}

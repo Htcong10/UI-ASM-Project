@@ -69,7 +69,7 @@ import {ProductService} from './demo/service/productservice';
 import {MenuService} from './app-systems/app-menu/app.menu.service';
 import {AppBreadcrumbService} from './app-systems/app-breadcrumb/app.breadcrumb.service';
 import {AppContactusComponent} from './pages/app.contactus.component';
-import { NgxSpinnerModule } from 'ngx-spinner';
+import {NgxSpinnerModule} from 'ngx-spinner';
 import {ComponentModule} from './modules/components-module/component.modules';
 import {ComponentCustomerModule} from './modules/compoents-customer-module/component-customer.modules';
 import {QuanTriHeThongModule} from './modules/quan-tri-he-thong-module/quan-tri-he-thong.module';
@@ -80,12 +80,13 @@ import {MyHttpInterceptor} from './modules/compoents-customer-module/Interceptor
 import {QuanTriToaNhaModule} from './modules/quan-tri-toa-nha-module/quan-tri-toa-nha.module';
 import {QuanTriCuDanModule} from './modules/quan-tri-cu-dan-module/quan-tri-cu-dan.module';
 import {QuanTriNhanVienModule} from './modules/quan-tri-nhan-vien-module/quan-tri-nhan-vien.module';
-import { AppMenuUserComponent } from './app-systems/app-menu-user/app-menu-user.component';
+import {AppMenuUserComponent} from './app-systems/app-menu-user/app-menu-user.component';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatDividerModule} from '@angular/material/divider';
+import {HIGHLIGHT_OPTIONS, HighlightOptions} from "ngx-highlightjs";
 
 
 @NgModule({
@@ -171,6 +172,20 @@ import {MatDividerModule} from '@angular/material/divider';
         PhotoService, ProductService, MenuService, AppBreadcrumbService, DatePipe,
         {provide: HTTP_INTERCEPTORS, useClass: MyHttpInterceptor, multi: true},
         {provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true},
+        {
+            provide: HIGHLIGHT_OPTIONS,
+            useValue: <HighlightOptions>{
+                lineNumbers: true,
+                coreLibraryLoader: () => import('highlight.js/lib/core'),
+                lineNumbersLoader: () => import('highlightjs-line-numbers.js'), // Optional, only if you want the line numbers
+                themePath: 'node_modules/highlight.js/styles/github-dark-dimmed.css',
+                languages: {
+                    typescript: () => import('highlight.js/lib/languages/typescript'),
+                    css: () => import('highlight.js/lib/languages/css'),
+                    xml: () => import('highlight.js/lib/languages/xml'),
+                },
+            },
+        },
         ShareData, CacheData, AppConfigComponent
     ],
     bootstrap: [AppComponent]

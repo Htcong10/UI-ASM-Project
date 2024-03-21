@@ -7,12 +7,11 @@ mat-toolbar {
     --background-main-color: #ffa400;
 }
 mat-sidenav {
-    margin: 16px;
-    width: 200px;
+    width: 17rem;
+    height : 100%;
     border-right: none;
-    background: #004a9f;
+    background: #2C3E50;
     color: white;
-    border-radius: 10px;
     padding: 16px;
     text-align: center;
 }
@@ -30,9 +29,16 @@ mat-sidenav {
 }
 
 mat-sidenav-container {
-    height: calc(100vh - 65px);
+    height: 100vh;
 }
-
+.sidebar-logo {
+    position: relative;
+    height: 100px;
+    // padding-left: 24px;
+    overflow: hidden;
+    line-height: 80px;
+    transition: all 0.3s;
+}
 .menu-button {
     width: 100%;
     display: flex;
@@ -42,6 +48,18 @@ mat-sidenav-container {
     mat-icon {
         margin-right: 8px;
     }
+}
+.sub-menu {
+    // Các quy tắc CSS tùy chỉnh cho sub-menu
+    // Ví dụ:
+    font-size: 0.8rem;
+    mat-icon {
+        font-size: 20px;
+    }
+}
+.submenu-wrapper {
+    overflow: hidden;
+    margin-left: 10px
 }
 .topbaricon{
     display: flex;
