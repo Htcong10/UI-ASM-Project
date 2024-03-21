@@ -294,7 +294,7 @@ export class AppConfigComponent implements OnInit {
         this.selectedTopbarTheme = this.topbarThemes.find(theme => theme.name === this.topbarTheme);
         document.documentElement.style.fontSize = this.scale + 'px';
 
-        //this.onLayoutModeChange(null, 'dark');
+        this.onLayoutModeChange(null, 'dark');
     }
 
     decrementScale() {
