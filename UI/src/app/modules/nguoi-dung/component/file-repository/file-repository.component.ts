@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {TreeNode} from 'primeng/api';
-import {HighlightAutoResult} from "ngx-highlightjs";
+import {HighlightAutoResult} from 'ngx-highlightjs';
 
 @Component({
     selector: 'app-file-repository',
@@ -57,15 +57,18 @@ export class FileRepositoryComponent implements OnInit {
         sortedStructure.forEach(path => {
             const pathParts = path.split('/');
             let currentLevel = treeData;
+            let currentPath = '';
 
             pathParts.forEach((part, index) => {
+                currentPath = currentPath ? `${currentPath}/${part}` : part; // Xây dựng đường dẫn
                 const existingPath = currentLevel.find(item => item.label === part && item.icon === this.folderIcon) as TreeNode | undefined;
                 if (existingPath) {
                     currentLevel = existingPath.children || [];
                 } else {
                     const newNode: TreeNode = {
                         label: part,
-                        icon: index === pathParts.length - 1 ? this.fileIcon : this.folderIcon
+                        icon: index === pathParts.length - 1 ? this.fileIcon : this.folderIcon,
+                        data: {path: currentPath} // Gắn đường dẫn vào nút
                     };
                     currentLevel.push(newNode);
                     if (index !== pathParts.length - 1) {
@@ -78,6 +81,7 @@ export class FileRepositoryComponent implements OnInit {
 
         return treeData;
     }
+
     onHighlight(e: HighlightAutoResult) {
         this.response = {
             language: e.language,
@@ -86,7 +90,33 @@ export class FileRepositoryComponent implements OnInit {
             value: '{...}',
         };
     }
+
     handleClick(event: any) {
         console.log(event);
+    }
+
+    renderCommitGraph() {
+        const data = [
+            {
+                id: '51149621e70bf62c4c0f07d0ca87f38e605085c4',
+                authorName: 'LeHa2505',
+                authorEmail: 'leha25052001@gmail.com',
+                committerName: 'LeHa2505',
+                committerEmail: 'leha25052001@gmail.com',
+                fullMessage: 'https://devops.evn.com.vn/KDDVKH/CMIS4/_backlogs/backlog/CMIS4%20Team/Features/?workitem=109\n',
+                shortMessage: 'https://devops.evn.com.vn/KDDVKH/CMIS4/_backlogs/backlog/CMIS4%20Team/Features/?workitem=109',
+                committedAt: '2024-01-30T09:38:17.000+00:00'
+            },
+            {
+                id: 'bec7b0fe8dcdff48e3d71e60f342284ded1618ca',
+                authorName: 'dungnv1',
+                authorEmail: 'dungnv1.evnit@evn.com.vn',
+                committerName: 'dungnv1',
+                committerEmail: 'dungnv1.evnit@evn.com.vn',
+                fullMessage: 'cap nhat cau hinh Quan ly tiep nhan luoi dien\n',
+                shortMessage: 'cap nhat cau hinh Quan ly tiep nhan luoi dien',
+                committedAt: '2024-01-25T07:16:45.000+00:00'
+            }
+        ];
     }
 }

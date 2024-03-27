@@ -1,44 +1,10 @@
-<!--<div class="scroll-full-height-ex">
-    <div class="grid">
-        <div class="col-3" style="height: 100%;">
-            <div class="card height-100" style="overflow-y: auto;" id="product-list">
-                <h5>Tree</h5>
-                <p-tree [value]="files1" selectionMode="single"
-                        (onNodeCollapse)="handleClick($event)"></p-tree>
-            </div>
-        </div>
-        <div class="col-9 height-100">
-            <div class="card height-100">
-                <h2>Content</h2>
-                <div class="tabview-wrapper">
-                    <p-tabView orientation="left">
-                        <p-tabPanel header="Content" leftIcon="pi pi-file">
-                            <p-scrollPanel mode="native" [style]="{height: '68vh'}">
-                            <pre><code [highlight]="fileContent" [languages]="['typescript']"
-                                       (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
-                            </p-scrollPanel>
-                        </p-tabPanel>
-                        <p-tabPanel header="History" leftIcon="pi pi-history" id="product-list">
-                           <pre><code [highlight]="fileContent" [languages]="['typescript']"
-                                      (highlighted)="onHighlight($event)" [lineNumbers]="true"></code></pre>
-                        </p-tabPanel>
-
-                        <p-tabPanel header="Compare" leftIcon="pi pi-mobile" id="product-list">
-                            &lt;!&ndash; Your content here &ndash;&gt;
-                        </p-tabPanel>
-                    </p-tabView>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>-->
 <div class="scroll-full-height-ex">
     <div class="grid">
         <p-panel class="col-12 md:col-3 lg:col-3 m-0" header="Chọn báo cáo">
             <div class="scroll-bcnocompo-2">
                 <p-scrollPanel mode="native">
                     <p-tree [value]="files1" selectionMode="single"
-                            (onNodeCollapse)="handleClick($event)"></p-tree>
+                            (onNodeSelect)="handleClick($event)"></p-tree>
                 </p-scrollPanel>
             </div>
         </p-panel>
@@ -52,7 +18,8 @@
                         </p-scrollPanel>
                     </p-tabPanel>
                     <p-tabPanel header="History" leftIcon="pi pi-history" id="product-list">
-
+                        <div style="width: 800px; height: 400px;">
+                        </div>
                     </p-tabPanel>
 
                     <p-tabPanel header="Compare" leftIcon="pi pi-mobile" id="product-list">
